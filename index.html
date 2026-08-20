@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sughra Medicose — 100% Genuine Pharmacy & Medicine Delivery | Delhi</title>
-  <meta name="description" content="Sughra Medicose - Delhi premier medical store by Tasnim Jamal at Shahganj Chowk, Ajmeri Gate. Order genuine medicines online, instant UPI payment, fast delivery. Call/WhatsApp: 7503574364.">
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Sughra Medicose — Delhi’s Premier 100% Genuine Pharmacy & Medicine Delivery</title>
+  <meta name="description" content="Sughra Medicose - Trusted Medical Store by Tasnim Jamal at Shahganj Chowk, Ajmeri Gate, Delhi. 100% Genuine medicines, instant auto-filled UPI QR payment, and 30-min delivery. Call/WhatsApp: 7503574364.">
+  <meta name="theme-color" content="#059669">
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,14 +49,19 @@
       </a>
 
       <div class="header-actions">
+        <!-- Theme Toggle -->
+        <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Dark Mode" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+          🌓
+        </button>
+
         <a href="tel:7503574364" class="btn btn-outline btn-sm" title="Call Pharmacy">
           📞 <span>Call Us</span>
         </a>
         <a href="https://wa.me/917503574364" target="_blank" class="btn btn-whatsapp btn-sm" title="WhatsApp Order">
-          💬 WhatsApp
+          💬 <span>WhatsApp</span>
         </a>
         <button class="cart-trigger-btn" id="cartTriggerBtn" aria-label="View Cart">
-          🛍️ Cart
+          🛍️ <span>Cart</span>
           <span class="cart-badge-count" id="cartBadgeCount">0</span>
         </button>
       </div>
@@ -71,35 +77,46 @@
             ✨ 100% Genuine Certified Medicines • Auto-Filled UPI QR
           </div>
           <h2 class="hero-title">
-            Your Trusted Neighborhood <span>Pharmacy</span> Delivered Fast
+            Your Neighborhood <span>Pharmacy</span> Delivered in Minutes
           </h2>
           <p class="hero-desc">
-            Order prescription medicines, wellness essentials, and baby care directly from Sughra Medicose with instant auto-filled UPI QR or 1-tap WhatsApp ordering.
+            Order prescription medicines, wellness essentials, and healthcare devices directly from Sughra Medicose with instant auto-filled UPI QR or 1-tap WhatsApp ordering.
           </p>
 
-          <!-- Search Bar -->
+          <!-- Fast Search Box -->
           <div class="hero-search-box">
             <span style="font-size: 1.25rem;">🔍</span>
             <input type="text" 
                    id="heroSearchInput" 
                    class="hero-search-input" 
-                   placeholder="Search by medicine name, salt (e.g. Paracetamol), or ailment...">
+                   placeholder="Search medicine name, salt (e.g. Paracetamol), ailment...">
             <button class="btn btn-primary" onclick="document.getElementById('catalogSection').scrollIntoView({behavior:'smooth'})">
               Find Medicines
             </button>
           </div>
+
+          <!-- Popular Search Chips -->
+          <div class="search-chips">
+            <span class="search-chips-label">Popular:</span>
+            <button class="search-chip" onclick="applyQuickSearch('Dolo 650')">🌡️ Dolo 650</button>
+            <button class="search-chip" onclick="applyQuickSearch('Augmentin')">💊 Augmentin</button>
+            <button class="search-chip" onclick="applyQuickSearch('Pan-D')">🔥 Pan-D</button>
+            <button class="search-chip" onclick="applyQuickSearch('Cheston Cold')">🤧 Cheston Cold</button>
+            <button class="search-chip" onclick="applyQuickSearch('Becosules')">⚡ Becosules</button>
+            <button class="search-chip" onclick="applyQuickSearch('Betadine')">🩹 Betadine</button>
+          </div>
         </div>
 
-        <!-- Prescription Upload Card -->
+        <!-- Prescription Upload Quick Card -->
         <div class="rx-banner-card">
           <div class="rx-banner-header">
-            <span style="font-size: 1.75rem;">📋</span>
+            <span style="font-size: 1.85rem;">📋</span>
             <h3>Have a Doctor’s Prescription?</h3>
           </div>
           <p class="rx-banner-desc">
             Upload your prescription. Our certified pharmacist will verify the salts, pack your order, and dispatch it to your doorstep.
           </p>
-          <button class="btn" style="background:#ffffff; color:#065f46; font-weight:700; width:100%;" onclick="openCheckoutModal()">
+          <button class="btn" style="background:#ffffff; color:#064e3b; font-weight:800; width:100%; box-shadow:0 6px 16px rgba(0,0,0,0.15);" onclick="openCheckoutModal()">
             📤 Upload Prescription & Order
           </button>
         </div>
@@ -111,7 +128,7 @@
           <div class="trust-icon">🛡️</div>
           <div class="trust-text">
             <h4>100% Genuine</h4>
-            <p>Direct from authorized pharma</p>
+            <p>Authorized pharma distribution</p>
           </div>
         </div>
         <div class="trust-item">
@@ -149,7 +166,7 @@
         </div>
       </div>
 
-      <!-- Category Filter Pills -->
+      <!-- Category Filter Carousel -->
       <div class="category-scroll">
         <button class="category-pill active" data-category="All">🌟 All Medicines</button>
         <button class="category-pill" data-category="Pain & Fever">🌡️ Pain & Fever</button>
@@ -162,12 +179,12 @@
         <button class="category-pill" data-category="Baby Care">👶 Baby Care</button>
       </div>
 
-      <!-- Secondary Filters Toolbar -->
+      <!-- Secondary Filters & Sort Toolbar -->
       <div class="filter-toolbar">
         <div class="filter-group">
-          <label style="font-size:0.85rem; font-weight:700; color:var(--text-muted);">Dosage Form:</label>
+          <label style="font-size:0.85rem; font-weight:700; color:var(--text-muted);">Dosage:</label>
           <select id="dosageFilterSelect" class="filter-select">
-            <option value="All">All Dosage Forms</option>
+            <option value="All">All Forms</option>
             <option value="Tablet">Tablets</option>
             <option value="Capsule">Capsules</option>
             <option value="Syrup">Syrups</option>
@@ -179,11 +196,22 @@
         </div>
 
         <div class="filter-group">
-          <label style="font-size:0.85rem; font-weight:700; color:var(--text-muted);">Prescription:</label>
+          <label style="font-size:0.85rem; font-weight:700; color:var(--text-muted);">Rx Type:</label>
           <select id="rxFilterSelect" class="filter-select">
             <option value="All">All Items</option>
-            <option value="otc">Over The Counter (OTC Safe)</option>
+            <option value="otc">Over The Counter (OTC)</option>
             <option value="rx">Prescription Required (Rx)</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label style="font-size:0.85rem; font-weight:700; color:var(--text-muted);">Sort By:</label>
+          <select id="sortBySelect" class="filter-select" onchange="handleSortChange(this.value)">
+            <option value="default">Featured / Popular</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="discount">Highest Discount</option>
+            <option value="name">Name (A to Z)</option>
           </select>
         </div>
       </div>
@@ -329,8 +357,8 @@
             </div>
 
             <!-- Auto-Filled Dynamic UPI QR Box -->
-            <div id="dynamicUpiBox" style="background:#ffffff; border:2px solid #10b981; border-radius:var(--radius-md); padding:1rem; text-align:center; margin-bottom:1rem;">
-              <div style="font-size:0.85rem; color:#065f46; font-weight:700; margin-bottom:0.4rem;">
+            <div id="dynamicUpiBox" style="background:var(--bg-card); border:2px solid #10b981; border-radius:var(--radius-md); padding:1rem; text-align:center; margin-bottom:1rem;">
+              <div style="font-size:0.85rem; color:var(--primary-dark); font-weight:800; margin-bottom:0.4rem;">
                 ⚡ Scan & Pay with Any UPI App (Amount Auto-Filled):
               </div>
               <div id="checkoutQrContainer" style="display:inline-block; padding:10px; background:#fff; border-radius:8px; box-shadow:var(--shadow-sm); margin-bottom:0.6rem;">
@@ -388,6 +416,38 @@
       </div>
     </div>
   </div>
+
+  <!-- Sticky Mobile Bottom Navigation Bar -->
+  <nav class="mobile-bottom-nav">
+    <div class="mobile-nav-inner">
+      <a href="#" class="mobile-nav-item active" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        <span class="mobile-nav-icon">🏠</span>
+        <span>Home</span>
+      </a>
+      <a href="#catalogSection" class="mobile-nav-item">
+        <span class="mobile-nav-icon">💊</span>
+        <span>Medicines</span>
+      </a>
+      <a href="javascript:void(0)" class="mobile-nav-item" onclick="openCheckoutModal()">
+        <span class="mobile-nav-icon">📋</span>
+        <span>Upload Rx</span>
+      </a>
+      <a href="javascript:void(0)" class="mobile-nav-item" onclick="toggleCartDrawer(true)">
+        <span class="mobile-nav-icon">🛍️</span>
+        <span>Cart</span>
+        <span class="mobile-cart-badge" id="mobileCartBadge">0</span>
+      </a>
+      <a href="https://wa.me/917503574364" target="_blank" class="mobile-nav-item" style="color:#25d366;">
+        <span class="mobile-nav-icon">💬</span>
+        <span>WhatsApp</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Floating WhatsApp FAB -->
+  <a href="https://wa.me/917503574364" target="_blank" class="whatsapp-fab" title="Chat on WhatsApp (7503574364)">
+    💬
+  </a>
 
   <!-- Footer -->
   <footer class="main-footer">

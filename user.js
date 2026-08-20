@@ -1,7 +1,7 @@
 /**
- * SUGHRA MEDICOSE — Frontend Customer Medicine Ordering App
- * Auto-Filled Dynamic UPI QR Code + WhatsApp Direct Ordering
- * Phone: 7503574364 | Delhi Ajmeri Gate
+ * SUGHRA MEDICOSE — World-Class Customer Pharmacy Experience
+ * Dynamic Auto-Filled UPI QR, WhatsApp Ordering, Dark Mode, Quick Search Chips, Card Steppers
+ * Phone: 7503574364 | Ajmeri Gate Delhi
  */
 
 let allMedicines = [];
@@ -18,14 +18,38 @@ let storeSettings = {
 let selectedCategory = "All";
 let selectedDosage = "All";
 let selectedRx = "All";
+let selectedSort = "default";
 let searchQuery = "";
 let uploadedPrescriptionUrl = null;
 let currentOrder = null;
 let selectedPaymentMethod = "UPI";
 
 document.addEventListener("DOMContentLoaded", () => {
+  initTheme();
   initApp();
 });
+
+function initTheme() {
+  const savedTheme = localStorage.getItem("sm_theme") || "light";
+  document.documentElement.setAttribute("data-theme", savedTheme);
+  updateThemeIcon(savedTheme);
+}
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute("data-theme") || "light";
+  const newTheme = current === "light" ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", newTheme);
+  localStorage.setItem("sm_theme", newTheme);
+  updateThemeIcon(newTheme);
+}
+
+function updateThemeIcon(theme) {
+  const btn = document.getElementById("themeToggleBtn");
+  if (btn) {
+    btn.innerHTML = theme === "dark" ? "☀️" : "🌙";
+    btn.title = theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode";
+  }
+}
 
 async function initApp() {
   await fetchSettings();
@@ -96,6 +120,19 @@ function initSSE() {
   }
 }
 
+function applyQuickSearch(term) {
+  searchQuery = term;
+  const input = document.getElementById("heroSearchInput");
+  if (input) input.value = term;
+  applyFilters();
+  document.getElementById("catalogSection")?.scrollIntoView({ behavior: "smooth" });
+}
+
+function handleSortChange(sortVal) {
+  selectedSort = sortVal;
+  applyFilters();
+}
+
 function applyFilters() {
   filteredMedicines = allMedicines.filter(med => {
     if (selectedCategory !== "All" && med.category !== selectedCategory) return false;
@@ -114,6 +151,17 @@ function applyFilters() {
     }
     return true;
   });
+
+  // Sorting
+  if (selectedSort === "price-asc") {
+    filteredMedicines.sort((a, b) => a.price - b.price);
+  } else if (selectedSort === "price-desc") {
+    filteredMedicines.sort((a, b) => b.price - a.price);
+  } else if (selectedSort === "discount") {
+    filteredMedicines.sort((a, b) => (b.discount || 0) - (a.discount || 0));
+  } else if (selectedSort === "name") {
+    filteredMedicines.sort((a, b) => a.name.localeCompare(b.name));
+  }
 
   renderMedicineGrid();
 }
@@ -157,6 +205,25 @@ function renderMedicineGrid() {
       ? `<span class="badge badge-discount med-discount-floating">${med.discount}% OFF</span>`
       : "";
 
+    let actionButtonHtml = "";
+    if (isOutOfStock) {
+      actionButtonHtml = `<button class="btn-add-cart" disabled>Out of Stock</button>`;
+    } else if (inCartQty > 0) {
+      actionButtonHtml = `
+        <div class="card-qty-stepper">
+          <button class="card-qty-btn" onclick="updateCartQty('${med.id}', -1)" title="Decrease">-</button>
+          <span class="card-qty-num">${inCartQty} in Cart</span>
+          <button class="card-qty-btn" onclick="updateCartQty('${med.id}', 1)" title="Increase">+</button>
+        </div>
+      `;
+    } else {
+      actionButtonHtml = `
+        <button class="btn-add-cart" onclick="addToCart('${med.id}')">
+          🛒 Add to Cart
+        </button>
+      `;
+    }
+
     return `
       <div class="med-card" data-id="${med.id}">
         <div class="med-image-wrapper">
@@ -185,9 +252,7 @@ function renderMedicineGrid() {
             <button class="btn btn-outline btn-sm" onclick="openMedDetailModal('${med.id}')" title="Quick View">
               ℹ️ Details
             </button>
-            <button class="btn-add-cart" onclick="addToCart('${med.id}')" ${isOutOfStock ? "disabled" : ""}>
-              ${isOutOfStock ? "Out of Stock" : (inCartQty > 0 ? `In Cart (${inCartQty}) +` : "🛒 Add to Cart")}
-            </button>
+            ${actionButtonHtml}
           </div>
         </div>
       </div>
@@ -205,28 +270,27 @@ function openMedDetailModal(medId) {
   const isOutOfStock = (med.stock || 0) <= 0;
 
   modalBody.innerHTML = `
-    <div style="display: grid; grid-template-columns: 180px 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
-      <img src="${med.image}" alt="${escapeHtml(med.name)}" style="width: 100%; height: 180px; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--border);">
+    <div style="display: grid; grid-template-columns: 140px 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
+      <img src="${med.image}" alt="${escapeHtml(med.name)}" style="width: 100%; height: 140px; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--border);">
       <div>
-        <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 0.4rem; flex-wrap: wrap;">
           <span class="badge ${med.prescriptionRequired ? "badge-rx" : "badge-otc"}">${med.prescriptionRequired ? "Prescription Required (Rx)" : "Over The Counter (OTC)"}</span>
           <span class="badge badge-category">${escapeHtml(med.category)}</span>
         </div>
-        <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.25rem;">${escapeHtml(med.name)}</h2>
-        <p style="color: var(--accent); font-weight: 600; font-size: 0.95rem; margin-bottom: 0.75rem;">${escapeHtml(med.genericName || "Standard Composition")}</p>
-        <div style="display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 0.75rem;">
-          <span style="font-size: 1.5rem; font-weight: 800; color: var(--primary-dark);">₹${med.price.toFixed(2)}</span>
-          ${med.mrp > med.price ? `<span style="font-size: 1rem; color: var(--text-light); text-decoration: line-through;">MRP ₹${med.mrp.toFixed(2)}</span>` : ""}
+        <h2 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 0.25rem;">${escapeHtml(med.name)}</h2>
+        <p style="color: var(--accent); font-weight: 600; font-size: 0.9rem; margin-bottom: 0.6rem;">${escapeHtml(med.genericName || "Standard Composition")}</p>
+        <div style="display: flex; align-items: baseline; gap: 0.6rem;">
+          <span style="font-size: 1.4rem; font-weight: 800; color: var(--primary-dark);">₹${med.price.toFixed(2)}</span>
+          ${med.mrp > med.price ? `<span style="font-size: 0.95rem; color: var(--text-light); text-decoration: line-through;">MRP ₹${med.mrp.toFixed(2)}</span>` : ""}
           ${med.discount > 0 ? `<span class="badge badge-discount">${med.discount}% OFF</span>` : ""}
         </div>
-        <p style="font-size: 0.85rem; color: var(--text-muted);"><strong>Manufacturer:</strong> ${escapeHtml(med.manufacturer)}</p>
-        <p style="font-size: 0.85rem; color: var(--text-muted);"><strong>Pack Size:</strong> ${escapeHtml(med.packSize)}</p>
       </div>
     </div>
 
-    <div style="background: var(--bg-main); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.25rem; border: 1px solid var(--border);">
-      <h4 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.4rem;">Clinical Description</h4>
-      <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">${escapeHtml(med.description || "Trusted quality medication.")}</p>
+    <div style="background: var(--bg-main); padding: 0.85rem 1rem; border-radius: var(--radius-md); margin-bottom: 1rem; border: 1px solid var(--border); font-size: 0.85rem; color: var(--text-muted);">
+      <p style="margin-bottom: 0.25rem;"><strong>Manufacturer:</strong> ${escapeHtml(med.manufacturer)}</p>
+      <p style="margin-bottom: 0.25rem;"><strong>Pack Size:</strong> ${escapeHtml(med.packSize)}</p>
+      <p><strong>Clinical Uses:</strong> ${escapeHtml(med.description || "Trusted quality medication.")}</p>
     </div>
 
     <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
@@ -277,7 +341,10 @@ function addToCart(medId) {
 
 function updateCartQty(medId, delta) {
   const itemIndex = cart.findIndex(c => c.id === medId);
-  if (itemIndex === -1) return;
+  if (itemIndex === -1) {
+    if (delta > 0) addToCart(medId);
+    return;
+  }
 
   const item = cart[itemIndex];
   const med = allMedicines.find(m => m.id === medId);
@@ -335,6 +402,7 @@ function syncCartWithLatestStock() {
 function renderCart() {
   const container = document.getElementById("cartItemsContainer");
   const badgeCount = document.getElementById("cartBadgeCount");
+  const mobileCartBadge = document.getElementById("mobileCartBadge");
   const subtotalEl = document.getElementById("cartSubtotal");
   const deliveryFeeEl = document.getElementById("cartDeliveryFee");
   const totalEl = document.getElementById("cartGrandTotal");
@@ -343,6 +411,7 @@ function renderCart() {
 
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
   if (badgeCount) badgeCount.textContent = totalItems;
+  if (mobileCartBadge) mobileCartBadge.textContent = totalItems;
 
   const itemTotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   const freeMin = storeSettings.freeDeliveryMin || 500;
@@ -405,7 +474,7 @@ function toggleCartDrawer(open) {
 
 function openCheckoutModal() {
   if (cart.length === 0) {
-    showToast("Your cart is empty!", "warning");
+    showToast("Your cart is empty! Add medicines first.", "warning");
     return;
   }
   toggleCartDrawer(false);
@@ -719,7 +788,7 @@ function showOrderConfirmation(order) {
         Thank you, <strong>${escapeHtml(order.customerName)}</strong>. Your order has been received by Sughra Medicose pharmacy.
       </p>
       
-      <div class="confirm-order-id">Order ID: ${order.id}</div>
+      <div class="confirm-order-id">Order ID: #${order.id}</div>
       <div style="font-size: 0.85rem; color: #047857; font-weight: 700; margin-bottom: 1rem;">
         Payment: ${escapeHtml(order.paymentMethod)} (${escapeHtml(order.paymentStatus)})
       </div>
@@ -809,6 +878,7 @@ function resetFilters() {
   selectedCategory = "All";
   selectedDosage = "All";
   selectedRx = "All";
+  selectedSort = "default";
   searchQuery = "";
   
   const searchInput = document.getElementById("heroSearchInput");
@@ -819,6 +889,9 @@ function resetFilters() {
 
   const rxSelect = document.getElementById("rxFilterSelect");
   if (rxSelect) rxSelect.value = "All";
+
+  const sortSelect = document.getElementById("sortBySelect");
+  if (sortSelect) sortSelect.value = "default";
 
   document.querySelectorAll(".category-pill").forEach(p => {
     if (p.dataset.category === "All") p.classList.add("active");

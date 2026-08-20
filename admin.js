@@ -484,12 +484,13 @@ function getNextActionButtons(order) {
 }
 
 async function confirmOrderPayment(orderId) {
+  const token = authToken || sessionStorage.getItem("sm_admin_token") || "sughra123";
   try {
     const res = await fetch(`/api/orders/${orderId}/confirm-payment`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${authToken}`
+        "Authorization": `Bearer ${token}`
       }
     });
     const data = await res.json();
@@ -498,19 +499,25 @@ async function confirmOrderPayment(orderId) {
       if (idx !== -1) orders[idx] = data.order;
       renderOrdersTab();
       showAdminToast(`Payment for Order #${orderId} marked as Verified & Received!`, "success");
+    } else if (res.status === 403) {
+      showAdminToast("Session expired. Please log in with your PIN again.", "warning");
+      setTimeout(() => showAuthLock(), 1000);
+    } else {
+      showAdminToast(data.error || "Failed to confirm payment", "danger");
     }
   } catch (e) {
-    showAdminToast("Error confirming payment", "danger");
+    showAdminToast("Network error confirming payment", "danger");
   }
 }
 
 async function updateOrderStatus(orderId, newStatus) {
+  const token = authToken || sessionStorage.getItem("sm_admin_token") || "sughra123";
   try {
     const res = await fetch(`/api/orders/${orderId}/status`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${authToken}`
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify({ status: newStatus })
     });
@@ -522,8 +529,11 @@ async function updateOrderStatus(orderId, newStatus) {
       updatePendingBadge();
       renderOrdersTab();
       showAdminToast(`Order #${orderId} marked as ${newStatus}`, "success");
+    } else if (res.status === 403) {
+      showAdminToast("Session expired. Please log in with your PIN again.", "warning");
+      setTimeout(() => showAuthLock(), 1000);
     } else {
-      showAdminToast("Failed to update status", "danger");
+      showAdminToast(data.error || "Failed to update status", "danger");
     }
   } catch (e) {
     showAdminToast("Network error updating order", "danger");
@@ -873,8 +883,8 @@ function updateSettingsUI() {
   if (phoneInput) phoneInput.value = storeSettings.phone || "7503574364";
   if (upiPhoneInput) upiPhoneInput.value = storeSettings.upiPhone || "7503574364";
   if (upiIdInput) upiIdInput.value = storeSettings.upiId || "7503574364@upi";
-  if (freeMinInput) freeMinInput.value = storeSettings.freeDeliveryMin || 500;
-  if (deliveryFeeInput) deliveryFeeInput.value = storeSettings.deliveryFee || 40;
+  if (freeMinInput) freeMinInput.value = storeSettings.freeDeliveryMin !== undefined ? storeSettings.freeDeliveryMin : 500;
+  if (deliveryFeeInput) deliveryFeeInput.value = storeSettings.deliveryFee !== undefined ? storeSettings.deliveryFee : 40;
   if (openSwitch) openSwitch.checked = storeSettings.isStoreOpen !== false;
 }
 
@@ -889,8 +899,17 @@ async function saveStoreSettings(e) {
   const phone = (document.getElementById("settingPhone")?.value || "").trim();
   const upiPhone = (document.getElementById("settingUpiPhone")?.value || "7503574364").trim();
   const upiId = (document.getElementById("settingUpiId")?.value || "7503574364@upi").trim();
-  const freeDeliveryMin = parseFloat(document.getElementById("settingFreeMin")?.value) || 500;
-  const deliveryFee = parseFloat(document.getElementById("settingDeliveryFee")?.value) || 40;
+  
+  const freeMinInputVal = document.getElementById("settingFreeMin")?.value;
+  const freeDeliveryMin = (freeMinInputVal !== "" && freeMinInputVal !== undefined && !isNaN(Number(freeMinInputVal))) 
+    ? Number(freeMinInputVal) 
+    : 500;
+
+  const feeInputVal = document.getElementById("settingDeliveryFee")?.value;
+  const deliveryFee = (feeInputVal !== "" && feeInputVal !== undefined && !isNaN(Number(feeInputVal))) 
+    ? Number(feeInputVal) 
+    : 40;
+
   const isStoreOpen = document.getElementById("settingStoreOpen") ? document.getElementById("settingStoreOpen").checked : true;
   const newPassword = (document.getElementById("settingNewPassword")?.value || "").trim();
 

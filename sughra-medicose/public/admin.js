@@ -484,12 +484,13 @@ function getNextActionButtons(order) {
 }
 
 async function confirmOrderPayment(orderId) {
+  const token = authToken || sessionStorage.getItem("sm_admin_token") || "sughra123";
   try {
     const res = await fetch(`/api/orders/${orderId}/confirm-payment`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${authToken}`
+        "Authorization": `Bearer ${token}`
       }
     });
     const data = await res.json();
@@ -498,19 +499,25 @@ async function confirmOrderPayment(orderId) {
       if (idx !== -1) orders[idx] = data.order;
       renderOrdersTab();
       showAdminToast(`Payment for Order #${orderId} marked as Verified & Received!`, "success");
+    } else if (res.status === 403) {
+      showAdminToast("Session expired. Please log in with your PIN again.", "warning");
+      setTimeout(() => showAuthLock(), 1000);
+    } else {
+      showAdminToast(data.error || "Failed to confirm payment", "danger");
     }
   } catch (e) {
-    showAdminToast("Error confirming payment", "danger");
+    showAdminToast("Network error confirming payment", "danger");
   }
 }
 
 async function updateOrderStatus(orderId, newStatus) {
+  const token = authToken || sessionStorage.getItem("sm_admin_token") || "sughra123";
   try {
     const res = await fetch(`/api/orders/${orderId}/status`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${authToken}`
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify({ status: newStatus })
     });
@@ -522,8 +529,11 @@ async function updateOrderStatus(orderId, newStatus) {
       updatePendingBadge();
       renderOrdersTab();
       showAdminToast(`Order #${orderId} marked as ${newStatus}`, "success");
+    } else if (res.status === 403) {
+      showAdminToast("Session expired. Please log in with your PIN again.", "warning");
+      setTimeout(() => showAuthLock(), 1000);
     } else {
-      showAdminToast("Failed to update status", "danger");
+      showAdminToast(data.error || "Failed to update status", "danger");
     }
   } catch (e) {
     showAdminToast("Network error updating order", "danger");

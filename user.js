@@ -414,8 +414,9 @@ function renderCart() {
   if (mobileCartBadge) mobileCartBadge.textContent = totalItems;
 
   const itemTotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-  const freeMin = storeSettings.freeDeliveryMin || 500;
-  const deliveryFee = itemTotal === 0 ? 0 : (itemTotal >= freeMin ? 0 : (storeSettings.deliveryFee || 40));
+  const freeMin = storeSettings.freeDeliveryMin !== undefined ? Number(storeSettings.freeDeliveryMin) : 500;
+  const standardFee = storeSettings.deliveryFee !== undefined ? Number(storeSettings.deliveryFee) : 40;
+  const deliveryFee = itemTotal === 0 ? 0 : (itemTotal >= freeMin ? 0 : standardFee);
   const grandTotal = itemTotal + deliveryFee;
 
   if (subtotalEl) subtotalEl.textContent = `₹${itemTotal.toFixed(2)}`;
@@ -523,8 +524,9 @@ function renderCheckoutSummary() {
   if (!summaryEl) return;
 
   const itemTotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-  const freeMin = storeSettings.freeDeliveryMin || 500;
-  const deliveryFee = itemTotal >= freeMin ? 0 : (storeSettings.deliveryFee || 40);
+  const freeMin = storeSettings.freeDeliveryMin !== undefined ? Number(storeSettings.freeDeliveryMin) : 500;
+  const standardFee = storeSettings.deliveryFee !== undefined ? Number(storeSettings.deliveryFee) : 40;
+  const deliveryFee = itemTotal >= freeMin ? 0 : standardFee;
   const grandTotal = itemTotal + deliveryFee;
 
   summaryEl.innerHTML = cart.map(i => `
@@ -659,8 +661,9 @@ async function handleWhatsAppDirectOrder() {
   const notes = document.getElementById("custNotes").value.trim();
 
   const itemTotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-  const freeMin = storeSettings.freeDeliveryMin || 500;
-  const deliveryFee = itemTotal >= freeMin ? 0 : (storeSettings.deliveryFee || 40);
+  const freeMin = storeSettings.freeDeliveryMin !== undefined ? Number(storeSettings.freeDeliveryMin) : 500;
+  const standardFee = storeSettings.deliveryFee !== undefined ? Number(storeSettings.deliveryFee) : 40;
+  const deliveryFee = itemTotal >= freeMin ? 0 : standardFee;
   const grandTotal = itemTotal + deliveryFee;
 
   const itemsFormatted = cart.map((item, idx) => 

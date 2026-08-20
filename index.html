@@ -14,8 +14,8 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="user.css">
   
-  <!-- Standalone QR Code Library -->
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>\n  <script src="qrcode.min.js"></script>
+  <!-- Standalone QR Code Generator Library -->
+  <script src="qrcode.min.js"></script>
 </head>
 <body>
 
@@ -68,13 +68,13 @@
       <div class="hero-grid">
         <div>
           <div class="hero-badge">
-            ✨ 100% Genuine Certified Medicines • Live Instant UPI
+            ✨ 100% Genuine Certified Medicines • Auto-Filled UPI QR
           </div>
           <h2 class="hero-title">
             Your Trusted Neighborhood <span>Pharmacy</span> Delivered Fast
           </h2>
           <p class="hero-desc">
-            Order prescription medicines, wellness essentials, and baby care directly from Sughra Medicose with instant live payment or 1-tap WhatsApp ordering.
+            Order prescription medicines, wellness essentials, and baby care directly from Sughra Medicose with instant auto-filled UPI QR or 1-tap WhatsApp ordering.
           </p>
 
           <!-- Search Bar -->
@@ -122,10 +122,10 @@
           </div>
         </div>
         <div class="trust-item">
-          <div class="trust-icon">💳</div>
+          <div class="trust-icon">📱</div>
           <div class="trust-text">
-            <h4>Live Bank Payment</h4>
-            <p>Instant UPI, GPay, PhonePe, Paytm</p>
+            <h4>Auto-Filled UPI QR</h4>
+            <p>Scan with GPay, PhonePe, Paytm</p>
           </div>
         </div>
         <div class="trust-item">
@@ -246,11 +246,11 @@
     </div>
   </div>
 
-  <!-- Checkout & Live Payment Modal -->
+  <!-- Checkout Modal (With Auto-Filled UPI QR) -->
   <div class="modal-overlay" id="checkoutModal">
-    <div class="modal-box" style="max-width: 620px;">
+    <div class="modal-box" style="max-width: 640px;">
       <div class="modal-header">
-        <h3>📦 Complete Your Order</h3>
+        <h3>📦 Place Medicine Order</h3>
         <button class="cart-close-btn" onclick="closeModal('checkoutModal')">✕</button>
       </div>
       <div class="modal-body">
@@ -289,11 +289,11 @@
 
           <div class="form-group">
             <label class="form-label">Special Delivery / Patient Notes (Optional)</label>
-            <input type="text" id="custNotes" class="form-control" placeholder="e.g. Ring bell, deliver after 6 PM">
+            <input type="text" id="custNotes" class="form-control" placeholder="e.g. Deliver before 8 PM">
           </div>
 
           <!-- Prescription Upload -->
-          <div class="form-group" style="background: var(--bg-main); padding: 1rem; border-radius: var(--radius-md); border: 1px dashed var(--border);">
+          <div class="form-group" style="background: var(--bg-main); padding: 0.85rem; border-radius: var(--radius-md); border: 1px dashed var(--border);">
             <label class="form-label" style="display:flex; justify-content:space-between;">
               <span>📄 Upload Prescription (Optional / Rx)</span>
               <span style="font-size:0.75rem; color:var(--text-light);">JPG, PNG, WebP, PDF</span>
@@ -302,84 +302,80 @@
             <div id="prescriptionUploadStatus" style="font-size:0.8rem; color:var(--primary-dark); margin-top:0.3rem;"></div>
             
             <div id="prescriptionPreview" style="display:none; margin-top:0.75rem; position:relative; width:fit-content;">
-              <img id="prescriptionPreviewImg" src="" alt="Prescription" style="max-height: 120px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+              <img id="prescriptionPreviewImg" src="" alt="Prescription" style="max-height: 100px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
               <button type="button" onclick="removePrescription()" style="position:absolute; top:-8px; right:-8px; background:#ef4444; color:#fff; border:none; border-radius:50%; width:22px; height:22px; cursor:pointer; font-size:12px;">✕</button>
             </div>
           </div>
 
+          <!-- Payment Method Selection -->
+          <div class="form-group">
+            <label class="form-label">Select Payment Method</label>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-bottom:0.75rem;">
+              <label style="border:2px solid var(--primary); background:rgba(5,150,105,0.05); padding:0.75rem; border-radius:var(--radius-md); display:flex; align-items:center; gap:0.5rem; cursor:pointer;" id="payMethodUpiLabel">
+                <input type="radio" name="payMethod" value="UPI" checked onchange="togglePaymentMethodUI('UPI')">
+                <div>
+                  <strong style="display:block; font-size:0.9rem;">📱 UPI / QR Code</strong>
+                  <span style="font-size:0.75rem; color:var(--text-muted);">GPay, PhonePe, Paytm</span>
+                </div>
+              </label>
+
+              <label style="border:1px solid var(--border); padding:0.75rem; border-radius:var(--radius-md); display:flex; align-items:center; gap:0.5rem; cursor:pointer;" id="payMethodCodLabel">
+                <input type="radio" name="payMethod" value="COD" onchange="togglePaymentMethodUI('COD')">
+                <div>
+                  <strong style="display:block; font-size:0.9rem;">💵 Cash on Delivery</strong>
+                  <span style="font-size:0.75rem; color:var(--text-muted);">Pay when rider arrives</span>
+                </div>
+              </label>
+            </div>
+
+            <!-- Auto-Filled Dynamic UPI QR Box -->
+            <div id="dynamicUpiBox" style="background:#ffffff; border:2px solid #10b981; border-radius:var(--radius-md); padding:1rem; text-align:center; margin-bottom:1rem;">
+              <div style="font-size:0.85rem; color:#065f46; font-weight:700; margin-bottom:0.4rem;">
+                ⚡ Scan & Pay with Any UPI App (Amount Auto-Filled):
+              </div>
+              <div id="checkoutQrContainer" style="display:inline-block; padding:10px; background:#fff; border-radius:8px; box-shadow:var(--shadow-sm); margin-bottom:0.6rem;">
+                <!-- QR Code rendered here -->
+              </div>
+              
+              <div style="font-size:0.85rem; margin-bottom:0.5rem;">
+                UPI ID: <strong id="checkoutUpiIdDisplay">7503574364@upi</strong>
+                <button type="button" class="btn btn-outline btn-sm" style="padding:2px 8px; font-size:0.75rem; margin-left:6px;" onclick="copyUpiId()">
+                  📋 Copy
+                </button>
+              </div>
+
+              <!-- 1-Tap Mobile App Buttons -->
+              <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:0.35rem; margin-top:0.5rem;">
+                <a href="#" id="intentGPay" class="btn btn-sm" style="background:#4285F4; color:#fff; font-size:0.75rem; padding:6px 2px;">GPay</a>
+                <a href="#" id="intentPhonePe" class="btn btn-sm" style="background:#5f259f; color:#fff; font-size:0.75rem; padding:6px 2px;">PhonePe</a>
+                <a href="#" id="intentPaytm" class="btn btn-sm" style="background:#00baf2; color:#fff; font-size:0.75rem; padding:6px 2px;">Paytm</a>
+                <a href="#" id="intentGeneric" class="btn btn-sm btn-outline" style="font-size:0.75rem; padding:6px 2px;">Any App</a>
+              </div>
+            </div>
+          </div>
+
           <!-- Order Summary in Modal -->
-          <div style="background: var(--bg-main); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.25rem;">
+          <div style="background: var(--bg-main); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 0.85rem; margin-bottom: 1rem;">
             <div id="checkoutSummaryItems">
               <!-- Rendered by user.js -->
             </div>
-            <div style="display:flex; justify-content:space-between; font-size:1.15rem; font-weight:800; margin-top:0.6rem; padding-top:0.6rem; border-top:1px solid var(--border); color:var(--primary-dark);">
-              <span>Total Payable:</span>
+            <div style="display:flex; justify-content:space-between; font-size:1.15rem; font-weight:800; margin-top:0.5rem; padding-top:0.5rem; border-top:1px solid var(--border); color:var(--primary-dark);">
+              <span>Grand Total:</span>
               <span id="checkoutGrandTotal">₹0.00</span>
             </div>
           </div>
 
-          <!-- Two Ordering Pathways -->
-          <div style="display:flex; flex-direction:column; gap:0.75rem;">
-            <!-- Pathway 1: Live Bank Payment (Customer Just Pays!) -->
-            <button type="submit" id="payOnlineBtn" class="btn btn-primary" style="padding:0.9rem; font-size:1.05rem;">
-              <span id="payOnlineBtnText">⚡ Pay via Live UPI / GPay / QR & Place Order</span>
+          <!-- Action Buttons -->
+          <div style="display:flex; flex-direction:column; gap:0.6rem;">
+            <button type="submit" id="placeOrderBtn" class="btn btn-primary" style="padding:0.9rem; font-size:1.05rem;">
+              🚀 Place Order Now
             </button>
 
-            <!-- Pathway 2: WhatsApp Auto-Written Direct Order -->
-            <button type="button" class="btn btn-whatsapp" onclick="handleWhatsAppDirectOrder()" style="padding:0.85rem; font-size:0.95rem;">
+            <button type="button" class="btn btn-whatsapp" onclick="handleWhatsAppDirectOrder()" style="padding:0.8rem; font-size:0.95rem;">
               💬 Order via WhatsApp (Auto-Fill Every Detail)
             </button>
           </div>
         </form>
-      </div>
-    </div>
-  </div>
-
-  
-  <!-- Instant Live UPI Payment Modal -->
-  <div class="modal-overlay" id="upiPaymentModal">
-    <div class="modal-box" style="max-width: 480px; text-align: center;">
-      <div class="modal-header">
-        <h3>⚡ Scan & Pay with Any UPI App</h3>
-        <button class="cart-close-btn" onclick="closeModal('upiPaymentModal')">✕</button>
-      </div>
-      <div class="modal-body" style="padding: 1.5rem 1.25rem;">
-        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.75rem;">
-          Exact order amount is embedded in the QR:
-        </p>
-        <div class="upi-amount-pill" id="liveUpiAmount" style="font-size:1.4rem; padding:0.4rem 1.25rem; margin-bottom:0.75rem;">₹0.00</div>
-
-        <div style="background:#ffffff; padding:12px; border-radius:12px; display:inline-block; box-shadow:var(--shadow-md); margin-bottom:1rem;" id="liveUpiQrBox">
-          <!-- Rendered by QRCode -->
-        </div>
-
-        <div style="background:var(--bg-main); border:1px solid var(--border); border-radius:var(--radius-md); padding:0.6rem 0.85rem; margin-bottom:1.25rem; display:flex; justify-content:space-between; align-items:center; font-size:0.85rem;">
-          <span>UPI ID: <strong id="liveUpiIdDisplay">7503574364@upi</strong></span>
-          <button type="button" class="btn btn-outline btn-sm" onclick="navigator.clipboard.writeText(document.getElementById('liveUpiIdDisplay').textContent); showToast('UPI ID Copied!', 'success');">
-            📋 Copy
-          </button>
-        </div>
-
-        <div style="margin-bottom:1.25rem;">
-          <div style="font-size:0.75rem; color:var(--text-light); text-transform:uppercase; letter-spacing:0.05em; font-weight:700; margin-bottom:0.5rem;">
-            Or Tap to Pay Directly on Mobile
-          </div>
-          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-            <a href="#" id="upiGPayBtn" class="btn btn-sm" style="background:#4285F4; color:#ffffff; font-weight:700;">Google Pay</a>
-            <a href="#" id="upiPhonePeBtn" class="btn btn-sm" style="background:#5f259f; color:#ffffff; font-weight:700;">PhonePe</a>
-            <a href="#" id="upiPaytmBtn" class="btn btn-sm" style="background:#00baf2; color:#ffffff; font-weight:700;">Paytm</a>
-            <a href="#" id="upiGenericBtn" class="btn btn-sm btn-outline" style="font-weight:700;">Any UPI App</a>
-          </div>
-        </div>
-
-        <div style="display:flex; flex-direction:column; gap:0.5rem;">
-          <button type="button" id="confirmUpiPaidBtn" class="btn btn-primary" onclick="confirmUpiPaymentComplete()" style="width:100%; padding:0.85rem; font-size:1rem;">
-            ✅ I Have Paid — Confirm & Place Order
-          </button>
-          <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('upiPaymentModal')">
-            Back to Checkout
-          </button>
-        </div>
       </div>
     </div>
   </div>

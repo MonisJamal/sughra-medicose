@@ -1,0 +1,20 @@
+{
+  "storeName": "Sughra Medicose",
+  "tagline": "Delhi\u2019s Trusted Pharmacy Landmark Since 1995",
+  "owner": "Tasnim Jamal",
+  "phone": "7503574364",
+  "altPhone": "7503564364",
+  "whatsapp": "7503574364",
+  "email": "orders@sughramedicose.com",
+  "address": "Shahganj Chowk, Ajmeri Gate, Delhi - 110006",
+  "upiPhone": "7503574364",
+  "upiId": "7503574364@ptaxis",
+  "upiPayeeName": "Sughra Medicose",
+  "adminPassword": "sughra123",
+  "currency": "INR",
+  "currencySymbol": "\u20b9",
+  "freeDeliveryMin": 400,
+  "deliveryFee": 40,
+  "isStoreOpen": true,
+  "operatingHours": "10:00 AM - 12:00 AM (7 Days a Week)"
+}

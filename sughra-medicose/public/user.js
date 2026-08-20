@@ -1,6 +1,6 @@
 /**
  * SUGHRA MEDICOSE — Frontend Customer Medicine Ordering App
- * Live Automated Payment Verification + Auto-written WhatsApp Orders
+ * Auto-Filled Dynamic UPI QR Code + WhatsApp Direct Ordering
  * Phone: 7503574364 | Delhi Ajmeri Gate
  */
 
@@ -21,6 +21,7 @@ let selectedRx = "All";
 let searchQuery = "";
 let uploadedPrescriptionUrl = null;
 let currentOrder = null;
+let selectedPaymentMethod = "UPI";
 
 document.addEventListener("DOMContentLoaded", () => {
   initApp();
@@ -49,6 +50,8 @@ async function fetchSettings() {
 function updateStoreSettingsUI() {
   document.querySelectorAll(".store-phone-val").forEach(el => el.textContent = storeSettings.phone);
   document.querySelectorAll(".free-min-val").forEach(el => el.textContent = "₹" + storeSettings.freeDeliveryMin);
+  const upiIdDisplay = document.getElementById("checkoutUpiIdDisplay");
+  if (upiIdDisplay) upiIdDisplay.textContent = storeSettings.upiId || `${storeSettings.upiPhone || "7503574364"}@upi`;
 }
 
 async function fetchMedicines() {
@@ -415,10 +418,39 @@ function openCheckoutModal() {
   openModal("checkoutModal");
 }
 
+function togglePaymentMethodUI(method) {
+  selectedPaymentMethod = method;
+  const upiBox = document.getElementById("dynamicUpiBox");
+  const upiLabel = document.getElementById("payMethodUpiLabel");
+  const codLabel = document.getElementById("payMethodCodLabel");
+
+  if (method === "UPI") {
+    if (upiBox) upiBox.style.display = "block";
+    if (upiLabel) {
+      upiLabel.style.borderColor = "var(--primary)";
+      upiLabel.style.background = "rgba(5,150,105,0.05)";
+    }
+    if (codLabel) {
+      codLabel.style.borderColor = "var(--border)";
+      codLabel.style.background = "transparent";
+    }
+  } else {
+    if (upiBox) upiBox.style.display = "none";
+    if (codLabel) {
+      codLabel.style.borderColor = "var(--primary)";
+      codLabel.style.background = "rgba(5,150,105,0.05)";
+    }
+    if (upiLabel) {
+      upiLabel.style.borderColor = "var(--border)";
+      upiLabel.style.background = "transparent";
+    }
+  }
+}
+
 function renderCheckoutSummary() {
   const summaryEl = document.getElementById("checkoutSummaryItems");
   const totalAmountEl = document.getElementById("checkoutGrandTotal");
-  const payBtnText = document.getElementById("payOnlineBtnText");
+  const placeBtn = document.getElementById("placeOrderBtn");
   if (!summaryEl) return;
 
   const itemTotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
@@ -439,15 +471,53 @@ function renderCheckoutSummary() {
   `;
 
   if (totalAmountEl) totalAmountEl.textContent = `₹${grandTotal.toFixed(2)}`;
-  if (payBtnText) payBtnText.textContent = `⚡ Pay ₹${grandTotal.toFixed(2)} via Razorpay / UPI & Place Order`;
+  if (placeBtn) placeBtn.textContent = `🚀 Place Order (₹${grandTotal.toFixed(2)})`;
+
+  // Render Auto-Filled Dynamic QR Code
+  renderDynamicUpiQr(grandTotal);
+}
+
+function renderDynamicUpiQr(amount) {
+  const qrContainer = document.getElementById("checkoutQrContainer");
+  const upiPhone = storeSettings.upiPhone || "7503574364";
+  const upiId = storeSettings.upiId || `${upiPhone}@upi`;
+  const payeeName = encodeURIComponent(storeSettings.storeName || "Sughra Medicose");
+  const upiUri = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${payeeName}&am=${amount.toFixed(2)}&cu=INR&tn=${encodeURIComponent("Medicine Order Sughra Medicose")}`;
+
+  const gpayBtn = document.getElementById("intentGPay");
+  const phonepeBtn = document.getElementById("intentPhonePe");
+  const paytmBtn = document.getElementById("intentPaytm");
+  const genericBtn = document.getElementById("intentGeneric");
+
+  if (gpayBtn) gpayBtn.href = upiUri;
+  if (phonepeBtn) phonepeBtn.href = upiUri;
+  if (paytmBtn) paytmBtn.href = upiUri;
+  if (genericBtn) genericBtn.href = upiUri;
+
+  if (qrContainer && typeof QRCode !== "undefined") {
+    qrContainer.innerHTML = "";
+    new QRCode(qrContainer, {
+      text: upiUri,
+      width: 170,
+      height: 170,
+      colorDark: "#064e3b",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  }
+}
+
+function copyUpiId() {
+  const upiPhone = storeSettings.upiPhone || "7503574364";
+  const upiId = storeSettings.upiId || `${upiPhone}@upi`;
+  navigator.clipboard.writeText(upiId);
+  showToast("UPI ID Copied: " + upiId, "success");
 }
 
 // ----------------------------------------------------
-// 1. RAZORPAY & LIVE UPI PAYMENT INTEGRATION
+// Submit Order (UPI or COD)
 // ----------------------------------------------------
-let pendingCustomerOrder = null;
-
-async function handleLivePaymentSubmit(e) {
+async function handleCheckoutSubmit(e) {
   e.preventDefault();
 
   const name = document.getElementById("custName").value.trim();
@@ -462,18 +532,13 @@ async function handleLivePaymentSubmit(e) {
     return;
   }
 
-  const payBtn = document.getElementById("payOnlineBtn");
-  if (payBtn) {
-    payBtn.disabled = true;
-    payBtn.innerHTML = "Opening Razorpay...";
+  const placeBtn = document.getElementById("placeOrderBtn");
+  if (placeBtn) {
+    placeBtn.disabled = true;
+    placeBtn.innerHTML = "Placing Order...";
   }
 
-  const itemTotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-  const freeMin = storeSettings.freeDeliveryMin || 500;
-  const deliveryFee = itemTotal >= freeMin ? 0 : (storeSettings.deliveryFee || 40);
-  const grandTotal = itemTotal + deliveryFee;
-
-  pendingCustomerOrder = {
+  const orderPayload = {
     customerName: name,
     customerPhone: phone,
     deliveryAddress: address,
@@ -481,158 +546,15 @@ async function handleLivePaymentSubmit(e) {
     pincode,
     notes,
     prescriptionUrl: uploadedPrescriptionUrl,
+    paymentMethod: selectedPaymentMethod,
     items: cart.map(i => ({ id: i.id, name: i.name, price: i.price, quantity: i.quantity }))
   };
 
   try {
-    // 1. Create order on server
-    const res = await fetch("/api/payment/create-order", {
+    const res = await fetch("/api/orders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: grandTotal })
-    });
-    const orderData = await res.json();
-
-    const keyToUse = storeSettings.razorpayKeyId || orderData.keyId || "rzp_test_1DP5mmOlF5G5ag";
-
-    // 2. Open Razorpay Checkout Modal
-    if (typeof Razorpay !== "undefined") {
-      const options = {
-        key: keyToUse,
-        amount: orderData.amount,
-        currency: "INR",
-        name: storeSettings.storeName || "Sughra Medicose",
-        description: "Medicine Order Payment",
-        image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=120&auto=format&fit=crop&q=80",
-        order_id: orderData.orderId,
-        prefill: {
-          name: name,
-          contact: phone,
-          email: "customer@sughramedicose.com"
-        },
-        notes: {
-          delivery_address: address
-        },
-        theme: {
-          color: "#059669"
-        },
-        handler: async function (response) {
-          showToast("Payment confirmed! Generating order...", "success");
-          await verifyAndFinalizeOrder(
-            response.razorpay_payment_id || ("pay_" + Date.now()),
-            response.razorpay_signature || "verified_sig",
-            pendingCustomerOrder
-          );
-        },
-        modal: {
-          ondismiss: function () {
-            showToast("Payment window closed.", "warning");
-            if (payBtn) {
-              payBtn.disabled = false;
-              renderCheckoutSummary();
-            }
-          }
-        }
-      };
-
-      try {
-        const rzp = new Razorpay(options);
-        rzp.on("payment.failed", function (resp) {
-          showToast("Payment failed: " + (resp.error.description || "Declined by bank"), "danger");
-          if (payBtn) payBtn.disabled = false;
-        });
-        rzp.open();
-        return;
-      } catch (err) {
-        console.warn("Razorpay init fallback:", err);
-      }
-    }
-
-    // Fallback if Razorpay SDK blocked or offline
-    openUpiPaymentModal(grandTotal, pendingCustomerOrder);
-  } catch (err) {
-    showToast("Error connecting to payment. Using direct UPI...", "warning");
-    openUpiPaymentModal(grandTotal, pendingCustomerOrder);
-  } finally {
-    if (payBtn) {
-      payBtn.disabled = false;
-      renderCheckoutSummary();
-    }
-  }
-}
-
-function openUpiPaymentModal(amount, order) {
-  closeModal("checkoutModal");
-
-  const upiPhone = storeSettings.upiPhone || "7503574364";
-  const upiId = storeSettings.upiId || `${upiPhone}@upi`;
-  const payeeName = encodeURIComponent(storeSettings.storeName || "Sughra Medicose");
-  const upiUri = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${payeeName}&am=${amount.toFixed(2)}&cu=INR&tn=${encodeURIComponent("Sughra Medicose Order")}`;
-
-  const modal = document.getElementById("upiPaymentModal");
-  const amountBadge = document.getElementById("liveUpiAmount");
-  const upiIdDisplay = document.getElementById("liveUpiIdDisplay");
-  const qrContainer = document.getElementById("liveUpiQrBox");
-  
-  const gpayBtn = document.getElementById("upiGPayBtn");
-  const phonepeBtn = document.getElementById("upiPhonePeBtn");
-  const paytmBtn = document.getElementById("upiPaytmBtn");
-  const genericUpiBtn = document.getElementById("upiGenericBtn");
-
-  if (amountBadge) amountBadge.textContent = `₹${amount.toFixed(2)}`;
-  if (upiIdDisplay) upiIdDisplay.textContent = upiId;
-
-  if (gpayBtn) gpayBtn.href = upiUri;
-  if (phonepeBtn) phonepeBtn.href = upiUri;
-  if (paytmBtn) paytmBtn.href = upiUri;
-  if (genericUpiBtn) genericUpiBtn.href = upiUri;
-
-  if (qrContainer && typeof QRCode !== "undefined") {
-    qrContainer.innerHTML = "";
-    new QRCode(qrContainer, {
-      text: upiUri,
-      width: 200,
-      height: 200,
-      colorDark: "#064e3b",
-      colorLight: "#ffffff"
-    });
-  }
-
-  openModal("upiPaymentModal");
-}
-
-async function confirmUpiPaymentComplete() {
-  if (!pendingCustomerOrder) {
-    showToast("No active order to confirm", "warning");
-    return;
-  }
-
-  const confirmBtn = document.getElementById("confirmUpiPaidBtn");
-  if (confirmBtn) {
-    confirmBtn.disabled = true;
-    confirmBtn.innerHTML = "Verifying Payment & Placing Order...";
-  }
-
-  const simulatedPaymentId = `UPI_${Date.now()}_${Math.random().toString(36).substring(4).toUpperCase()}`;
-  closeModal("upiPaymentModal");
-  await verifyAndFinalizeOrder(simulatedPaymentId, "upi_verified", pendingCustomerOrder);
-  
-  if (confirmBtn) {
-    confirmBtn.disabled = false;
-    confirmBtn.innerHTML = "✅ I Have Paid — Place My Order";
-  }
-}
-
-async function verifyAndFinalizeOrder(paymentId, signature, customerOrder) {
-  try {
-    const res = await fetch("/api/payment/verify-and-place", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        paymentId,
-        paymentSignature: signature,
-        customerOrder
-      })
+      body: JSON.stringify(orderPayload)
     });
 
     const data = await res.json();
@@ -645,15 +567,20 @@ async function verifyAndFinalizeOrder(paymentId, signature, customerOrder) {
       closeModal("checkoutModal");
       showOrderConfirmation(currentOrder);
     } else {
-      showToast(data.error || "Payment verification failed", "danger");
+      showToast(data.error || "Failed to place order", "danger");
     }
-  } catch (e) {
-    showToast("Network error verifying order", "danger");
+  } catch (err) {
+    showToast("Network error. Please try WhatsApp order.", "danger");
+  } finally {
+    if (placeBtn) {
+      placeBtn.disabled = false;
+      renderCheckoutSummary();
+    }
   }
 }
 
 // ----------------------------------------------------
-// 2. AUTO-WRITTEN WHATSAPP ORDER (Direct to 7503574364)
+// WhatsApp Auto-Written Direct Ordering
 // ----------------------------------------------------
 async function handleWhatsAppDirectOrder() {
   const name = document.getElementById("custName").value.trim() || "Customer";
@@ -671,7 +598,6 @@ async function handleWhatsAppDirectOrder() {
     `${idx + 1}. *${item.name}* (x${item.quantity}) — ₹${(item.price * item.quantity).toFixed(2)}`
   ).join("\n");
 
-  // Auto-compose professional full-detail message
   const rawMsg = 
 `🏥 *NEW ORDER — SUGHRA MEDICOSE*
 ━━━━━━━━━━━━━━━━━━━━
@@ -694,9 +620,9 @@ Please confirm and dispatch my order!`;
   const upiPhone = storeSettings.upiPhone || "7503574364";
   const waUrl = `https://wa.me/91${upiPhone}?text=${encodedMsg}`;
 
-  // Record order in admin pipeline as [WhatsApp Order]
+  // Log in admin portal
   try {
-    await fetch("/api/orders/whatsapp", {
+    await fetch("/api/orders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -706,6 +632,7 @@ Please confirm and dispatch my order!`;
         landmark,
         notes,
         prescriptionUrl: uploadedPrescriptionUrl,
+        paymentMethod: "WhatsApp",
         items: cart
       })
     });
@@ -713,7 +640,6 @@ Please confirm and dispatch my order!`;
     console.warn("WhatsApp order logged locally");
   }
 
-  // Clear Cart & Open WhatsApp
   cart = [];
   saveCart();
   renderCart();
@@ -723,9 +649,6 @@ Please confirm and dispatch my order!`;
   showToast("Opening WhatsApp with your auto-filled order details...", "success");
 }
 
-// ----------------------------------------------------
-// Prescription & UI Helpers
-// ----------------------------------------------------
 function handlePrescriptionUpload(input) {
   const file = input.files[0];
   if (!file) return;
@@ -784,37 +707,37 @@ function showOrderConfirmation(order) {
   `).join("");
 
   const waMsg = encodeURIComponent(
-    `Hello Sughra Medicose, my payment of *₹${order.grandTotal.toFixed(2)}* for Order *#${order.id}* is verified! Please dispatch to: ${order.deliveryAddress}.`
+    `Hello Sughra Medicose, I have placed Order *#${order.id}* for *₹${order.grandTotal.toFixed(2)}* (${order.paymentMethod}). Please confirm dispatch to: ${order.deliveryAddress}.`
   );
   const waUrl = `https://wa.me/917503574364?text=${waMsg}`;
 
   body.innerHTML = `
     <div class="confirm-box">
       <div class="confirm-check-icon">✓</div>
-      <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 0.25rem;">Payment Verified & Order Placed!</h2>
+      <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.25rem;">Order Placed Successfully!</h2>
       <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">
-        Thank you, <strong>${escapeHtml(order.customerName)}</strong>. Your payment was verified and order sent directly to Sughra Medicose pharmacy.
+        Thank you, <strong>${escapeHtml(order.customerName)}</strong>. Your order has been received by Sughra Medicose pharmacy.
       </p>
       
       <div class="confirm-order-id">Order ID: ${order.id}</div>
-      <div style="font-size: 0.8rem; color: #047857; font-weight: 700; margin-bottom: 1rem;">
-        Payment ID: ${escapeHtml(order.paymentId || "Verified")}
+      <div style="font-size: 0.85rem; color: #047857; font-weight: 700; margin-bottom: 1rem;">
+        Payment: ${escapeHtml(order.paymentMethod)} (${escapeHtml(order.paymentStatus)})
       </div>
 
       <div style="background: var(--bg-main); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.25rem; text-align: left; margin-bottom: 1.5rem;">
         <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.75rem; border-bottom: 1px solid var(--border); padding-bottom: 0.4rem;">
-          Order Details
+          Order Summary
         </h4>
         ${itemsList}
         <div style="display:flex; justify-content:space-between; font-size:1.15rem; font-weight:800; margin-top:0.6rem; padding-top:0.6rem; border-top:1px solid var(--border); color:var(--primary-dark);">
-          <span>Total Paid:</span>
+          <span>Grand Total:</span>
           <span>₹${order.grandTotal.toFixed(2)}</span>
         </div>
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 0.75rem;">
         <a href="${waUrl}" target="_blank" class="btn btn-whatsapp" style="width: 100%;">
-          💬 Share Order Slip on WhatsApp
+          💬 Share Order on WhatsApp
         </a>
         <button class="btn btn-primary" onclick="closeModal('orderConfirmModal')" style="width: 100%;">
           Continue Shopping
@@ -873,7 +796,7 @@ function setupEventListeners() {
   }
 
   const checkoutForm = document.getElementById("checkoutForm");
-  if (checkoutForm) checkoutForm.addEventListener("submit", handleLivePaymentSubmit);
+  if (checkoutForm) checkoutForm.addEventListener("submit", handleCheckoutSubmit);
 
   document.querySelectorAll(".modal-overlay").forEach(overlay => {
     overlay.addEventListener("click", (e) => {

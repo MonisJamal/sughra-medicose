@@ -444,7 +444,7 @@ function renderOrdersTab() {
         </td>
         <td>
           <strong>₹${(o.grandTotal || 0).toFixed(2)}</strong><br>
-          <span style="font-size:0.75rem; color:${o.paymentMethod === "UPI" ? "#34d399" : "#fbbf24"}; font-weight:700;">${o.paymentMethod}</span>
+          ${getPaymentBadge(o)}
         </td>
         <td>
           ${hasRx ? `<button class="admin-btn admin-btn-outline admin-btn-sm" onclick="viewPrescriptionModal('${o.prescriptionUrl}')">📄 View Rx</button>` : `<span style="font-size:0.75rem; color:var(--admin-muted);">None</span>`}
@@ -467,19 +467,41 @@ function renderOrdersTab() {
 }
 
 function getNextActionButtons(order) {
+  let btns = "";
+  if (order.paymentMethod === "UPI" && order.paymentStatus !== "Verified & Paid") {
+    btns += `<button class="admin-btn admin-btn-sm" style="background:#059669; color:#fff;" onclick="confirmOrderPayment('${order.id}')" title="Confirm payment received in your UPI app">💰 Confirm Paid</button> `;
+  }
   if (order.status === "Pending") {
-    return `<button class="admin-btn admin-btn-primary admin-btn-sm" onclick="updateOrderStatus('${order.id}', 'Accepted')">✓ Accept</button>`;
+    btns += `<button class="admin-btn admin-btn-primary admin-btn-sm" onclick="updateOrderStatus('${order.id}', 'Accepted')">✓ Accept</button>`;
+  } else if (order.status === "Accepted") {
+    btns += `<button class="admin-btn admin-btn-primary admin-btn-sm" style="background:#a855f7;" onclick="updateOrderStatus('${order.id}', 'Preparing')">📦 Prepare</button>`;
+  } else if (order.status === "Preparing") {
+    btns += `<button class="admin-btn admin-btn-primary admin-btn-sm" style="background:#f97316;" onclick="updateOrderStatus('${order.id}', 'Out for Delivery')">🛵 Dispatch</button>`;
+  } else if (order.status === "Out for Delivery") {
+    btns += `<button class="admin-btn admin-btn-primary admin-btn-sm" style="background:#10b981;" onclick="updateOrderStatus('${order.id}', 'Delivered')">✅ Delivered</button>`;
   }
-  if (order.status === "Accepted") {
-    return `<button class="admin-btn admin-btn-primary admin-btn-sm" style="background:#a855f7;" onclick="updateOrderStatus('${order.id}', 'Preparing')">📦 Prepare</button>`;
+  return btns;
+}
+
+async function confirmOrderPayment(orderId) {
+  try {
+    const res = await fetch(`/api/orders/${orderId}/confirm-payment`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${authToken}`
+      }
+    });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      const idx = orders.findIndex(o => o.id === orderId);
+      if (idx !== -1) orders[idx] = data.order;
+      renderOrdersTab();
+      showAdminToast(`Payment for Order #${orderId} marked as Verified & Received!`, "success");
+    }
+  } catch (e) {
+    showAdminToast("Error confirming payment", "danger");
   }
-  if (order.status === "Preparing") {
-    return `<button class="admin-btn admin-btn-primary admin-btn-sm" style="background:#f97316;" onclick="updateOrderStatus('${order.id}', 'Out for Delivery')">🛵 Dispatch</button>`;
-  }
-  if (order.status === "Out for Delivery") {
-    return `<button class="admin-btn admin-btn-primary admin-btn-sm" style="background:#10b981;" onclick="updateOrderStatus('${order.id}', 'Delivered')">✅ Delivered</button>`;
-  }
-  return "";
 }
 
 async function updateOrderStatus(orderId, newStatus) {
@@ -854,8 +876,6 @@ function updateSettingsUI() {
   if (freeMinInput) freeMinInput.value = storeSettings.freeDeliveryMin || 500;
   if (deliveryFeeInput) deliveryFeeInput.value = storeSettings.deliveryFee || 40;
   if (openSwitch) openSwitch.checked = storeSettings.isStoreOpen !== false;
-  const rzpKeyInput = document.getElementById("settingRazorpayKeyId");
-  if (rzpKeyInput) rzpKeyInput.value = storeSettings.razorpayKeyId || "";
 }
 
 function renderSettingsTab() {
@@ -865,28 +885,24 @@ function renderSettingsTab() {
 async function saveStoreSettings(e) {
   e.preventDefault();
 
-  const storeName = document.getElementById("settingStoreName").value.trim();
-  const phone = document.getElementById("settingPhone").value.trim();
-  const upiPhone = document.getElementById("settingUpiPhone").value.trim();
-  const upiId = document.getElementById("settingUpiId").value.trim();
-  const freeDeliveryMin = parseFloat(document.getElementById("settingFreeMin").value) || 500;
-  const deliveryFee = parseFloat(document.getElementById("settingDeliveryFee").value) || 40;
-  const isStoreOpen = document.getElementById("settingStoreOpen").checked;
-  const razorpayKeyId = document.getElementById("settingRazorpayKeyId").value.trim();
-  const razorpayKeySecret = document.getElementById("settingRazorpayKeySecret").value.trim();
-  const newPassword = document.getElementById("settingNewPassword").value.trim();
+  const storeName = (document.getElementById("settingStoreName")?.value || "").trim();
+  const phone = (document.getElementById("settingPhone")?.value || "").trim();
+  const upiPhone = (document.getElementById("settingUpiPhone")?.value || "7503574364").trim();
+  const upiId = (document.getElementById("settingUpiId")?.value || "7503574364@upi").trim();
+  const freeDeliveryMin = parseFloat(document.getElementById("settingFreeMin")?.value) || 500;
+  const deliveryFee = parseFloat(document.getElementById("settingDeliveryFee")?.value) || 40;
+  const isStoreOpen = document.getElementById("settingStoreOpen") ? document.getElementById("settingStoreOpen").checked : true;
+  const newPassword = (document.getElementById("settingNewPassword")?.value || "").trim();
 
   const payload = {
-    storeName,
-    phone,
+    storeName: storeName || "Sughra Medicose",
+    phone: phone || "7503574364",
     upiPhone,
     upiId,
     freeDeliveryMin,
     deliveryFee,
-    isStoreOpen,
-    razorpayKeyId
+    isStoreOpen
   };
-  if (razorpayKeySecret) payload.razorpayKeySecret = razorpayKeySecret;
 
   if (newPassword) {
     payload.adminPassword = newPassword;
@@ -1144,13 +1160,16 @@ function getStatusBadge(status) {
 }
 
 function getPaymentBadge(order) {
-  if (order.paymentMethod === "WhatsApp / COD") {
-    return `<span style="font-size:0.75rem; background:rgba(37,211,102,0.15); color:#25d366; padding:2px 6px; border-radius:4px; font-weight:700;">💬 WhatsApp Order</span>`;
+  if (order.paymentMethod === "WhatsApp" || order.paymentMethod === "WhatsApp / COD") {
+    return `<span style="font-size:0.75rem; background:rgba(37,211,102,0.15); color:#25d366; padding:3px 7px; border-radius:4px; font-weight:700;">💬 WhatsApp</span>`;
   }
-  if (order.paymentId || order.paymentStatus === "Completed (Verified)") {
-    return `<span style="font-size:0.75rem; background:rgba(16,185,129,0.15); color:#34d399; padding:2px 6px; border-radius:4px; font-weight:700;">💳 Bank Paid & Verified</span>`;
+  if (order.paymentMethod === "COD") {
+    return `<span style="font-size:0.75rem; background:rgba(245,158,11,0.15); color:#fbbf24; padding:3px 7px; border-radius:4px; font-weight:700;">💵 Cash on Delivery</span>`;
   }
-  return `<span style="font-size:0.75rem; color:#fbbf24; font-weight:700;">${escapeHtml(order.paymentMethod || "COD")}</span>`;
+  if (order.paymentStatus === "Verified & Paid" || order.paymentStatus === "Paid & Completed") {
+    return `<span style="font-size:0.75rem; background:rgba(16,185,129,0.15); color:#34d399; padding:3px 7px; border-radius:4px; font-weight:700;">✅ Paid (Verified)</span>`;
+  }
+  return `<span style="font-size:0.75rem; background:rgba(239,68,68,0.15); color:#f87171; padding:3px 7px; border-radius:4px; font-weight:700;">⏳ UPI - Needs Verification</span>`;
 }
 
 function openAdminModal(modalId) {

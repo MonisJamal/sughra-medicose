@@ -16,7 +16,5 @@
   "freeDeliveryMin": 400,
   "deliveryFee": 40,
   "isStoreOpen": true,
-  "operatingHours": "8:00 AM - 11:30 PM (7 Days a Week)",
-  "razorpayKeyId": "rzp_test_1DP5mmOlF5G5ag",
-  "razorpayKeySecret": ""
+  "operatingHours": "8:00 AM - 11:30 PM (7 Days a Week)"
 }

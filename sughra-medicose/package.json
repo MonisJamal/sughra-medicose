@@ -1,0 +1,20 @@
+{
+  "name": "sughra-medicose",
+  "version": "2.0.0",
+  "description": "Sughra Medicose - Professional Dual-App Pharmacy Ecosystem (User Ordering App + Admin Management Portal)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node seed-data.js"
+  },
+  "keywords": [
+    "pharmacy",
+    "medical-store",
+    "realtime",
+    "upi",
+    "inventory",
+    "sughra-medicose"
+  ],
+  "author": "Tasnim Jamal \u2014 Sughra Medicose",
+  "license": "ISC"
+}

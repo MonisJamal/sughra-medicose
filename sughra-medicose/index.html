@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sughra Medicose — Best Medical Shop in Delhi | Tasnim Jamal | 24/7 WhatsApp Ordering</title>
+    <meta name="description"
+        content="Sughra Medicose — Delhi's premier pharmacy at Shahganj Chowk, Ajmeri Gate. 100% genuine medicines, instant WhatsApp ordering, prescription home delivery, and expert healthcare by Tasnim Jamal. Call/WhatsApp: 7503564364.">
+    <meta name="keywords"
+        content="Sughra Medicose, Tasnim Jamal, medical shop Delhi, pharmacy Ajmeri Gate, buy medicines online Delhi, WhatsApp medicine order 7503564364, prescription upload, genuine medicines, emergency medicine delivery, chemist near me">
+    <meta name="author" content="Tasnim Jamal — Sughra Medicose">
+
+    <!-- Open Graph / Social Meta -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Sughra Medicose — Delhi's Most Trusted Pharmacy | Tasnim Jamal">
+    <meta property="og:description"
+        content="Order genuine medicines instantly via WhatsApp (7503564364), upload prescriptions, and explore health tools at Sughra Medicose, Shahganj Chowk, Ajmeri Gate.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=1200&auto=format&fit=crop&q=80">
+    <meta name="theme-color" content="#030914">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Lucide Icons (CDN) -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- ========== AUDIO ENGINE (Synthesized UI Feedback) ========== -->
+    <div id="audioStatus" class="sr-only" aria-live="polite"></div>
+
+    <!-- ========== PRELOADER WITH BIO-PULSE ANIMATION ========== -->
+    <div id="preloader" class="preloader">
+        <div class="preloader-content">
+            <div class="bio-pulse-wrapper">
+                <div class="pulse-ring ring-1"></div>
+                <div class="pulse-ring ring-2"></div>
+                <div class="pulse-ring ring-3"></div>
+                <div class="pill-graphic">
+                    <div class="pill-cap pill-teal"></div>
+                    <div class="pill-cap pill-amber"></div>
+                    <div class="pill-sparkle"></div>
+                </div>
+            </div>
+            <div class="preloader-text-group">
+                <h2 class="preloader-title">Sughra <span class="gradient-text">Medicose</span></h2>
+                <p class="preloader-tagline">Tasnim Jamal • Delhi's Healthcare Landmark Since 1995</p>
+            </div>
+            <div class="preloader-progress-track">
+                <div class="preloader-progress-bar" id="preloaderBar"></div>
+            </div>
+            <span class="preloader-percent" id="preloaderPercent">0%</span>
+        </div>
+    </div>
+
+    <!-- ========== INTERACTIVE MOUSE GLOW ========== -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- ========== TOP EMERGENCY & LIVE STATUS TICKER ========== -->
+    <div class="top-announcement-bar">
+        <div class="announcement-inner">
+            <div class="live-status-pill">
+                <span class="live-pulse-dot"></span>
+                <span id="liveStoreStatus">🟢 Open Now • Dispensing Genuine Medicines</span>
+            </div>
+            <div class="announcement-scroll">
+                <div class="announcement-track">
+                    <span>⚡ 100% Genuine Medicines Direct from Authorized Distributors</span>
+                    <span class="announcement-sep">•</span>
+                    <span>🛵 Fast Home Delivery Across Delhi NCR</span>
+                    <span class="announcement-sep">•</span>
+                    <span>💬 WhatsApp Order Hotline: <strong>7503564364</strong></span>
+                    <span class="announcement-sep">•</span>
+                    <span>🏥 Located at Shahganj Chowk, Ajmeri Gate, Delhi</span>
+                    <span class="announcement-sep">•</span>
+                    <span>💊 Upload Prescription & Get Ready-to-Collect Order in 15 Mins</span>
+                </div>
+            </div>
+            <div class="top-controls">
+                <!-- Sound Toggle -->
+                <button id="soundToggle" class="icon-toggle-btn" title="Toggle Sound Effects" aria-label="Toggle sound effects">
+                    <i data-lucide="volume-2" class="sound-icon-on"></i>
+                    <i data-lucide="volume-x" class="sound-icon-off" style="display:none;"></i>
+                    <span class="btn-tooltip">Sound FX</span>
+                </button>
+                <!-- Theme Toggle -->
+                <button id="themeToggle" class="icon-toggle-btn" title="Switch Light/Dark Theme" aria-label="Switch theme">
+                    <i data-lucide="sun" class="theme-icon-light"></i>
+                    <i data-lucide="moon" class="theme-icon-dark" style="display:none;"></i>
+                    <span class="btn-tooltip">Theme</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== HEADER & NAVIGATION ========== -->
+    <header id="header" class="main-header">
+        <div class="container nav-container">
+            <!-- Brand Logo -->
+            <a href="#hero" class="nav-brand" aria-label="Sughra Medicose Home">
+                <div class="brand-symbol">
+                    <div class="symbol-bg"></div>
+                    <i data-lucide="cross" class="symbol-icon"></i>
+                    <span class="symbol-pulse"></span>
+                </div>
+                <div class="brand-text">
+                    <div class="brand-title">
+                        <span class="brand-name">Sughra</span>
+                        <span class="brand-badge">Medicose</span>
+                    </div>
+                    <span class="brand-subtitle">Est. 1995 • Tasnim Jamal</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="nav-menu" id="navMenu">
+                <ul class="nav-list">
+                    <li><a href="#hero" class="nav-item active"><i data-lucide="home"></i> Home</a></li>
+                    <li><a href="#catalog" class="nav-item"><i data-lucide="shopping-bag"></i> Medicines</a></li>
+                    <li><a href="#prescription" class="nav-item"><i data-lucide="file-text"></i> Upload Rx</a></li>
+                    <li><a href="#health-suite" class="nav-item"><i data-lucide="activity"></i> Health Tools</a></li>
+                    <li><a href="#about" class="nav-item"><i data-lucide="shield-check"></i> About</a></li>
+                    <li><a href="#reviews" class="nav-item"><i data-lucide="star"></i> Reviews</a></li>
+                    <li><a href="#contact" class="nav-item"><i data-lucide="map-pin"></i> Contact</a></li>
+                </ul>
+            </nav>
+
+            <!-- Navigation Action Buttons -->
+            <div class="nav-cta-group">
+                <!-- Cart Trigger Button -->
+                <button class="cart-trigger-btn" id="openCartBtn" aria-label="Open Shopping Cart">
+                    <div class="cart-icon-wrap">
+                        <i data-lucide="shopping-cart"></i>
+                        <span class="cart-counter" id="cartCount">0</span>
+                    </div>
+                    <span class="cart-label">Cart</span>
+                </button>
+
+                <!-- WhatsApp Quick Order -->
+                <a href="https://wa.me/917503564364?text=Hi%20Sughra%20Medicose!%20I%20would%20like%20to%20inquire%20about%20medicines."
+                    target="_blank" rel="noopener" class="btn btn-whatsapp-nav" title="Chat on WhatsApp">
+                    <i data-lucide="message-circle"></i>
+                    <span>WhatsApp</span>
+                </a>
+
+                <!-- Emergency Call Button -->
+                <a href="tel:+917503564364" class="btn btn-call-nav" title="Call Pharmacy">
+                    <i data-lucide="phone-call"></i>
+                    <span>7503564364</span>
+                </a>
+
+                <!-- Mobile Hamburger Toggle -->
+                <button class="mobile-hamburger" id="hamburgerBtn" aria-label="Toggle Navigation Menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+
+        <!-- ========== HERO SECTION WITH 3D MOTION GRAPHICS ========== -->
+        <section id="hero" class="hero-section">
+            <canvas id="heroCanvas" class="hero-canvas"></canvas>
+            <div class="hero-radial-glow"></div>
+            <div class="hero-grid-pattern"></div>
+
+            <div class="container hero-container">
+                <div class="hero-grid">
+                    <!-- Hero Content Left -->
+                    <div class="hero-left">
+                        <div class="hero-badge-pill reveal-item">
+                            <span class="badge-icon"><i data-lucide="sparkles"></i></span>
+                            <span class="badge-text">Delhi's Award-Winning Trusted Pharmacy • 30+ Years Legacy</span>
+                        </div>
+
+                        <h1 class="hero-heading reveal-item delay-1">
+                            Your Lifeline For <br>
+                            <span class="gradient-text-hero">Genuine Medicines</span> & <br>
+                            <span class="hero-highlight">Instant Care.</span>
+                        </h1>
+
+                        <p class="hero-description reveal-item delay-2">
+                            Welcome to <strong>Sughra Medicose</strong>, founded by <strong>Tasnim Jamal</strong> at Shahganj Chowk, Ajmeri Gate. We combine three decades of pharmaceutical trust with instantaneous <strong>1-Tap WhatsApp Ordering</strong> and doorstep delivery.
+                        </p>
+
+                        <!-- Hero Primary Action Buttons -->
+                        <div class="hero-actions-row reveal-item delay-3">
+                            <a href="#prescription" class="btn btn-primary-glow btn-lg">
+                                <i data-lucide="upload-cloud"></i>
+                                <span>Upload Prescription</span>
+                                <i data-lucide="arrow-right" class="btn-arrow"></i>
+                            </a>
+
+                            <a href="#catalog" class="btn btn-glass btn-lg">
+                                <i data-lucide="search"></i>
+                                <span>Search 5000+ Medicines</span>
+                            </a>
+
+                            <a href="https://wa.me/917503564364?text=Hello%20Tasnim%20Jamal%20ji%20(Sughra%20Medicose)!%20I%20want%20to%20order%20medicines."
+                                target="_blank" rel="noopener" class="btn btn-whatsapp-glow btn-lg">
+                                <i data-lucide="message-square"></i>
+                                <span>Order on WhatsApp</span>
+                            </a>
+                        </div>
+
+                        <!-- Realtime Trust & Stats Bar -->
+                        <div class="hero-stats-bar reveal-item delay-4">
+                            <div class="stat-card">
+                                <div class="stat-icon-wrap"><i data-lucide="shield-check"></i></div>
+                                <div class="stat-info">
+                                    <div class="stat-val-group">
+                                        <span class="stat-num" data-target="30">0</span>
+                                        <span class="stat-suffix">+</span>
+                                    </div>
+                                    <span class="stat-lbl">Years of Trust</span>
+                                </div>
+                            </div>
+                            <div class="stat-separator"></div>
+
+                            <div class="stat-card">
+                                <div class="stat-icon-wrap"><i data-lucide="users"></i></div>
+                                <div class="stat-info">
+                                    <div class="stat-val-group">
+                                        <span class="stat-num" data-target="65000">0</span>
+                                        <span class="stat-suffix">+</span>
+                                    </div>
+                                    <span class="stat-lbl">Families Served</span>
+                                </div>
+                            </div>
+                            <div class="stat-separator"></div>
+
+                            <div class="stat-card">
+                                <div class="stat-icon-wrap"><i data-lucide="pill"></i></div>
+                                <div class="stat-info">
+                                    <div class="stat-val-group">
+                                        <span class="stat-num" data-target="15000">0</span>
+                                        <span class="stat-suffix">+</span>
+                                    </div>
+                                    <span class="stat-lbl">Medicines In Stock</span>
+                                </div>
+                            </div>
+                            <div class="stat-separator"></div>
+
+                            <div class="stat-card">
+                                <div class="stat-icon-wrap"><i data-lucide="clock"></i></div>
+                                <div class="stat-info">
+                                    <div class="stat-val-group">
+                                        <span class="stat-num" data-target="15">0</span>
+                                        <span class="stat-suffix"> min</span>
+                                    </div>
+                                    <span class="stat-lbl">WhatsApp Prep Time</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hero Visual Right (Interactive Hologram Capsule Card) -->
+                    <div class="hero-right reveal-item delay-2">
+                        <div class="hologram-stage" id="hologramStage">
+                            <!-- Floating Orbital Rings -->
+                            <div class="orbit-ring orbit-outer"></div>
+                            <div class="orbit-ring orbit-middle"></div>
+                            <div class="orbit-ring orbit-inner"></div>
+
+                            <!-- Central 3D Capsule Glass Art -->
+                            <div class="hologram-capsule-card" data-tilt>
+                                <div class="capsule-glow-aura"></div>
+                                <div class="capsule-3d-visual">
+                                    <div class="capsule-half top-emerald">
+                                        <div class="dna-strand strand-1"></div>
+                                        <div class="dna-strand strand-2"></div>
+                                        <span class="capsule-cross">+</span>
+                                    </div>
+                                    <div class="capsule-divider"></div>
+                                    <div class="capsule-half bottom-amber">
+                                        <div class="molecule-dot m-1"></div>
+                                        <div class="molecule-dot m-2"></div>
+                                        <div class="molecule-dot m-3"></div>
+                                        <span class="capsule-text">Rx 100%</span>
+                                    </div>
+                                </div>
+
+                                <!-- Live Interactive Badge Float -->
+                                <div class="floating-chip chip-top-right">
+                                    <i data-lucide="check-circle" class="text-emerald"></i>
+                                    <div>
+                                        <strong>100% Verified</strong>
+                                        <span>Direct Pharma Supply</span>
+                                    </div>
+                                </div>
+
+                                <div class="floating-chip chip-bottom-left">
+                                    <i data-lucide="zap" class="text-amber"></i>
+                                    <div>
+                                        <strong>Instant WhatsApp</strong>
+                                        <span>7503564364 Ready</span>
+                                    </div>
+                                </div>
+
+                                <div class="floating-chip chip-bottom-right">
+                                    <i data-lucide="thermometer-snowflake" class="text-cyan"></i>
+                                    <div>
+                                        <strong>Cold Chain Storage</strong>
+                                        <span>2°C - 8°C Maintained</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wave Transition Bottom -->
+            <div class="hero-bottom-curve">
+                <svg viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none">
+                    <path d="M0,32L80,48C160,64,320,96,480,96C640,96,800,64,960,53.3C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="currentColor"></path>
+                </svg>
+            </div>
+        </section>
+
+        <!-- ========== FAST-ACTION WHATSAPP ORDER LAUNCHPAD ========== -->
+        <section class="quick-launchpad-section">
+            <div class="container">
+                <div class="launchpad-card">
+                    <div class="launchpad-header">
+                        <div class="launchpad-badge"><i data-lucide="zap"></i> Fast-Track Services</div>
+                        <h3>Need Instant Assistance from <strong>Tasnim Jamal</strong>?</h3>
+                        <p>Click any quick action below to immediately initiate a tailored order on WhatsApp (+91 7503564364):</p>
+                    </div>
+
+                    <div class="launchpad-grid">
+                        <a href="https://wa.me/917503564364?text=Hi%20Sughra%20Medicose!%20I%20want%20to%20order%20my%20Regular%20Monthly%20Medicines."
+                            target="_blank" rel="noopener" class="launch-chip" data-sound="click">
+                            <div class="chip-icon bg-emerald-glow"><i data-lucide="repeat"></i></div>
+                            <div class="chip-info">
+                                <strong>Refill Monthly Medicines</strong>
+                                <span>For Diabetes, BP, Heart & Chronic Care</span>
+                            </div>
+                            <i data-lucide="chevron-right" class="chip-arrow"></i>
+                        </a>
+
+                        <a href="https://wa.me/917503564364?text=Hi%20Sughra%20Medicose!%20I%20am%20looking%20for%20a%20rare/emergency%20medicine.%20Can%20you%20check%20availability%3F"
+                            target="_blank" rel="noopener" class="launch-chip" data-sound="click">
+                            <div class="chip-icon bg-amber-glow"><i data-lucide="search-check"></i></div>
+                            <div class="chip-info">
+                                <strong>Find Rare / Urgent Medicine</strong>
+                                <span>Special sourcing network across Delhi</span>
+                            </div>
+                            <i data-lucide="chevron-right" class="chip-arrow"></i>
+                        </a>
+
+                        <a href="https://wa.me/917503564364?text=Hi%20Tasnim%20Jamal%20ji!%20Can%20you%20suggest%20a%20trusted%20generic%20substitute%20to%20save%20costs%3F"
+                            target="_blank" rel="noopener" class="launch-chip" data-sound="click">
+                            <div class="chip-icon bg-blue-glow"><i data-lucide="badge-percent"></i></div>
+                            <div class="chip-info">
+                                <strong>Generic Substitute Advice</strong>
+                                <span>Save up to 70% with identical composition</span>
+                            </div>
+                            <i data-lucide="chevron-right" class="chip-arrow"></i>
+                        </a>
+
+                        <a href="https://wa.me/917503564364?text=Hi%20Sughra%20Medicose!%20I%20would%20like%20Home%20Delivery%20at%20my%20address."
+                            target="_blank" rel="noopener" class="launch-chip" data-sound="click">
+                            <div class="chip-icon bg-purple-glow"><i data-lucide="truck"></i></div>
+                            <div class="chip-info">
+                                <strong>Request Fast Home Delivery</strong>
+                                <span>Direct delivery at your doorstep</span>
+                            </div>
+                            <i data-lucide="chevron-right" class="chip-arrow"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 24/7 EMERGENCY SOS STRIP ========== -->
+        <section class="emergency-sos-strip">
+            <div class="container">
+                <div class="sos-box">
+                    <div class="sos-radar-wrap">
+                        <div class="sos-radar-ping"></div>
+                        <i data-lucide="alert-triangle" class="sos-icon"></i>
+                    </div>
+                    <div class="sos-content">
+                        <h4>Need Critical or Emergency Night Medicines?</h4>
+                        <p>We provide urgent priority dispensing for critical prescriptions, nebulizers, oxygen accessories, and insulin.</p>
+                    </div>
+                    <div class="sos-actions">
+                        <a href="tel:+917503564364" class="btn btn-emergency-pulse">
+                            <i data-lucide="phone-call"></i>
+                            <span>Call Emergency: 7503564364</span>
+                        </a>
+                        <a href="https://wa.me/917503564364?text=🚨%20EMERGENCY%20ORDER%20-%20Sughra%20Medicose!%20I%20urgently%20need%20medicine."
+                            target="_blank" rel="noopener" class="btn btn-emergency-wa">
+                            <i data-lucide="message-circle"></i>
+                            <span>WhatsApp SOS</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== E-PHARMACY MEDICINE STORE & CATALOG ========== -->
+        <section id="catalog" class="catalog-section">
+            <div class="container">
+                <!-- Section Header -->
+                <div class="section-header text-center reveal-item">
+                    <div class="section-badge"><i data-lucide="pill"></i> E-Pharmacy Store</div>
+                    <h2 class="section-title">Explore Genuine <span class="gradient-text">Medicines & Healthcare</span></h2>
+                    <p class="section-subtitle">Search over 10,000+ authentic medicines, medical devices, vitamins, and wellness supplies. Add to cart for 1-Tap WhatsApp Checkout!</p>
+                </div>
+
+                <!-- Catalog Search & Filter Controls -->
+                <div class="catalog-controls reveal-item delay-1">
+                    <!-- Realtime Search Bar -->
+                    <div class="search-box-wrapper">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input type="text" id="medicineSearchInput" placeholder="Search by medicine name, salt (e.g. Paracetamol), brand (Cipla), or symptom..." aria-label="Search medicines">
+                        <button id="clearSearchBtn" class="clear-search-btn" aria-label="Clear Search" style="display:none;">
+                            <i data-lucide="x"></i>
+                        </button>
+                    </div>
+
+                    <!-- Category Pills Horizontal Scroll -->
+                    <div class="category-filters-container">
+                        <div class="category-filters-track" id="categoryFilters">
+                            <button class="cat-pill active" data-category="all">
+                                <i data-lucide="layout-grid"></i> All Products (<span id="countAll">0</span>)
+                            </button>
+                            <button class="cat-pill" data-category="rx">
+                                <i data-lucide="file-heart"></i> Prescription Rx (<span id="countRx">0</span>)
+                            </button>
+                            <button class="cat-pill" data-category="otc">
+                                <i data-lucide="shield-plus"></i> OTC & First Aid (<span id="countOtc">0</span>)
+                            </button>
+                            <button class="cat-pill" data-category="devices">
+                                <i data-lucide="activity"></i> Medical Devices (<span id="countDevices">0</span>)
+                            </button>
+                            <button class="cat-pill" data-category="wellness">
+                                <i data-lucide="sparkles"></i> Vitamins & Wellness (<span id="countWellness">0</span>)
+                            </button>
+                            <button class="cat-pill" data-category="baby">
+                                <i data-lucide="heart-handshake"></i> Baby & Mother Care (<span id="countBaby">0</span>)
+                            </button>
+                            <button class="cat-pill" data-category="ayurveda">
+                                <i data-lucide="leaf"></i> Ayurvedic & Herbal (<span id="countAyurveda">0</span>)
+                            </button>
+                            <button class="cat-pill" data-category="derma">
+                                <i data-lucide="smile"></i> Dermatology & Personal (<span id="countDerma">0</span>)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="products-grid" id="productsGrid">
+                    <!-- Dynamically populated via JavaScript -->
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-search-state" id="emptyState" style="display: none;">
+                    <div class="empty-icon"><i data-lucide="package-search"></i></div>
+                    <h3>No matching medicines found</h3>
+                    <p>Can't find what you're looking for? Don't worry, we can source almost any medicine through our distributor network!</p>
+                    <a href="https://wa.me/917503564364?text=Hi%20Sughra%20Medicose!%20I%20am%20looking%20for%20a%20specific%20medicine%20not%20listed%20on%20the%20website."
+                        target="_blank" rel="noopener" class="btn btn-whatsapp-glow">
+                        <i data-lucide="message-circle"></i> Ask Tasnim Jamal on WhatsApp
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== PRESCRIPTION UPLOAD STUDIO ========== -->
+        <section id="prescription" class="prescription-section">
+            <div class="container">
+                <div class="prescription-glass-card">
+                    <div class="prescription-grid">
+                        <!-- Left Guide & Steps -->
+                        <div class="rx-guide-col reveal-item">
+                            <div class="section-badge"><i data-lucide="file-up"></i> Express Rx Service</div>
+                            <h2 class="section-title">Upload Doctor's <span class="gradient-text">Prescription</span></h2>
+                            <p class="rx-desc">Skip waiting at the counter! Upload a photo or PDF of your doctor's prescription. <strong>Tasnim Jamal</strong> and our pharmacists will review, verify dosages, and pack your medicines immediately.</p>
+
+                            <div class="rx-steps-list">
+                                <div class="rx-step-item">
+                                    <div class="step-badge">1</div>
+                                    <div class="step-text">
+                                        <h4>Upload or Snap Photo</h4>
+                                        <p>Select clear image or PDF from your phone/computer.</p>
+                                    </div>
+                                </div>
+
+                                <div class="rx-step-item">
+                                    <div class="step-badge">2</div>
+                                    <div class="step-text">
+                                        <h4>Pharmacist Review</h4>
+                                        <p>We check valid doctor details, dosages, and stock.</p>
+                                    </div>
+                                </div>
+
+                                <div class="rx-step-item">
+                                    <div class="step-badge">3</div>
+                                    <div class="step-text">
+                                        <h4>1-Tap WhatsApp Dispatch</h4>
+                                        <p>Receive order confirmation & bill on WhatsApp (+91 7503564364).</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="rx-trust-callout">
+                                <i data-lucide="lock" class="text-emerald"></i>
+                                <span><strong>100% Medical Privacy:</strong> Your prescription is strictly confidential and protected.</span>
+                            </div>
+                        </div>
+
+                        <!-- Right Upload Area & Form -->
+                        <div class="rx-upload-col reveal-item delay-1">
+                            <form id="rxUploadForm" class="rx-form" onsubmit="return false;">
+                                <!-- Dropzone -->
+                                <div class="dropzone" id="rxDropzone">
+                                    <input type="file" id="rxFileInput" accept="image/*,.pdf" class="file-input-hidden">
+                                    <div class="dropzone-empty" id="dropzoneEmpty">
+                                        <div class="drop-icon-ring">
+                                            <i data-lucide="cloud-upload" class="cloud-icon"></i>
+                                        </div>
+                                        <h4>Click or Drag Prescription Here</h4>
+                                        <p>Supports PNG, JPG, JPEG, WEBP or PDF (Max 15MB)</p>
+                                        <button type="button" class="btn btn-outline btn-sm" id="rxBrowseBtn">
+                                            <i data-lucide="folder"></i> Browse Files
+                                        </button>
+                                    </div>
+
+                                    <!-- Uploaded Preview -->
+                                    <div class="dropzone-preview" id="dropzonePreview" style="display: none;">
+                                        <div class="preview-media-wrap">
+                                            <img id="rxPreviewImg" src="" alt="Prescription preview">
+                                            <div id="rxPdfPlaceholder" class="pdf-placeholder" style="display: none;">
+                                                <i data-lucide="file-text"></i>
+                                                <span id="rxPdfName">prescription.pdf</span>
+                                            </div>
+                                        </div>
+                                        <div class="preview-actions">
+                                            <span class="file-status"><i data-lucide="check-circle"></i> Ready to Send</span>
+                                            <button type="button" class="btn btn-remove-file" id="rxRemoveBtn">
+                                                <i data-lucide="trash-2"></i> Remove
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Patient Details Fields -->
+                                <div class="rx-fields-group">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="patientName"><i data-lucide="user"></i> Patient Name *</label>
+                                            <input type="text" id="patientName" placeholder="e.g. Mohammed Farhan" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="patientPhone"><i data-lucide="phone"></i> Contact Phone *</label>
+                                            <input type="tel" id="patientPhone" placeholder="e.g. 9876543210" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label><i data-lucide="map-pin"></i> Fulfillment Mode</label>
+                                            <div class="segmented-control">
+                                                <label class="seg-option">
+                                                    <input type="radio" name="fulfillmentMode" value="Delivery" checked>
+                                                    <span>🛵 Home Delivery</span>
+                                                </label>
+                                                <label class="seg-option">
+                                                    <input type="radio" name="fulfillmentMode" value="Store Pickup">
+                                                    <span>🏬 Store Pickup</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="deliveryAddress"><i data-lucide="navigation"></i> Address / Landmark</label>
+                                            <input type="text" id="deliveryAddress" placeholder="e.g. Ajmeri Gate, Near Metro Gate 2">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="rxNotes"><i data-lucide="message-square"></i> Special Doctor Notes / Days required</label>
+                                        <input type="text" id="rxNotes" placeholder="e.g. Need 1-month supply of BP medicine, brand Cipla preferred">
+                                    </div>
+                                </div>
+
+                                <!-- Submit via WhatsApp Button -->
+                                <button type="button" id="submitRxWhatsAppBtn" class="btn btn-whatsapp-glow btn-block btn-lg" data-sound="success">
+                                    <i data-lucide="send"></i>
+                                    <span>Send Prescription via WhatsApp to +91 7503564364</span>
+                                </button>
+                                <p class="form-legal-note text-center">
+                                    <i data-lucide="info"></i> Clicking opens WhatsApp with your pre-filled prescription order. Please attach your image in the chat when prompted.
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== INTERACTIVE HEALTH & WELLNESS SUITE ========== -->
+        <section id="health-suite" class="health-suite-section">
+            <div class="container">
+                <div class="section-header text-center reveal-item">
+                    <div class="section-badge"><i data-lucide="activity"></i> Patient Care Tools</div>
+                    <h2 class="section-title">Interactive <span class="gradient-text">Health & Wellness Suite</span></h2>
+                    <p class="section-subtitle">Free clinical calculators and daily dosage planners crafted to help you and your family maintain peak health.</p>
+                </div>
+
+                <div class="health-tabs-wrapper reveal-item delay-1">
+                    <!-- Tab Buttons -->
+                    <div class="health-nav-tabs" role="tablist">
+                        <button class="health-tab-btn active" data-tab="tab-bmi" role="tab">
+                            <i data-lucide="scale"></i> BMI Calculator
+                        </button>
+                        <button class="health-tab-btn" data-tab="tab-water" role="tab">
+                            <i data-lucide="droplet"></i> Hydration Planner
+                        </button>
+                        <button class="health-tab-btn" data-tab="tab-bp" role="tab">
+                            <i data-lucide="heart-pulse"></i> BP & Sugar Chart
+                        </button>
+                        <button class="health-tab-btn" data-tab="tab-reminder" role="tab">
+                            <i data-lucide="clock"></i> Dosage & Reminder
+                        </button>
+                    </div>
+
+                    <!-- Tab Contents Container -->
+                    <div class="health-tab-panels">
+
+                        <!-- TAB 1: BMI CALCULATOR -->
+                        <div class="health-panel active" id="tab-bmi" role="tabpanel">
+                            <div class="calculator-grid">
+                                <div class="calc-form">
+                                    <h3>Calculate Body Mass Index (BMI)</h3>
+                                    <p class="calc-sub">Know your healthy weight range according to WHO guidelines.</p>
+
+                                    <div class="input-slider-group">
+                                        <div class="slider-header">
+                                            <label for="bmiHeight">Height (cm)</label>
+                                            <span class="slider-val" id="bmiHeightVal">170 cm</span>
+                                        </div>
+                                        <input type="range" id="bmiHeight" min="100" max="230" value="170" class="styled-range">
+                                    </div>
+
+                                    <div class="input-slider-group">
+                                        <div class="slider-header">
+                                            <label for="bmiWeight">Weight (kg)</label>
+                                            <span class="slider-val" id="bmiWeightVal">68 kg</span>
+                                        </div>
+                                        <input type="range" id="bmiWeight" min="30" max="180" value="68" class="styled-range">
+                                    </div>
+
+                                    <div class="calc-gender-row">
+                                        <label class="gender-pill active"><input type="radio" name="bmiGender" value="male" checked hidden> 👨 Male</label>
+                                        <label class="gender-pill"><input type="radio" name="bmiGender" value="female" hidden> 👩 Female</label>
+                                    </div>
+                                </div>
+
+                                <div class="calc-result-box">
+                                    <div class="result-dial">
+                                        <span class="bmi-number" id="bmiScore">23.5</span>
+                                        <span class="bmi-tag" id="bmiCategory">Normal Weight</span>
+                                    </div>
+                                    <div class="bmi-bar-track">
+                                        <div class="bmi-indicator" id="bmiIndicator" style="left: 45%;"></div>
+                                        <div class="bmi-segment seg-under" title="Underweight <18.5"></div>
+                                        <div class="bmi-segment seg-normal" title="Normal 18.5-24.9"></div>
+                                        <div class="bmi-segment seg-over" title="Overweight 25-29.9"></div>
+                                        <div class="bmi-segment seg-obese" title="Obese 30+"></div>
+                                    </div>
+                                    <p class="bmi-advice" id="bmiAdvice">Great job! Your BMI is within the healthy recommended range. Keep maintaining a balanced diet.</p>
+                                    <a href="https://wa.me/917503564364?text=Hi%20Sughra%20Medicose!%20Can%20you%20recommend%20health%20supplements%20for%20my%20weight%20goals%3F"
+                                        target="_blank" rel="noopener" class="btn btn-outline btn-sm">
+                                        <i data-lucide="message-circle"></i> Consult Pharmacist on Supplements
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 2: HYDRATION CALCULATOR -->
+                        <div class="health-panel" id="tab-water" role="tabpanel">
+                            <div class="calculator-grid">
+                                <div class="calc-form">
+                                    <h3>Daily Hydration & Water Intake</h3>
+                                    <p class="calc-sub">Hydration is critical for organ function, medicine metabolism, and skin health.</p>
+
+                                    <div class="input-slider-group">
+                                        <div class="slider-header">
+                                            <label for="waterWeight">Your Body Weight (kg)</label>
+                                            <span class="slider-val" id="waterWeightVal">70 kg</span>
+                                        </div>
+                                        <input type="range" id="waterWeight" min="30" max="150" value="70" class="styled-range">
+                                    </div>
+
+                                    <div class="input-slider-group">
+                                        <div class="slider-header">
+                                            <label for="waterActivity">Daily Exercise / Physical Activity (Minutes)</label>
+                                            <span class="slider-val" id="waterActivityVal">30 mins</span>
+                                        </div>
+                                        <input type="range" id="waterActivity" min="0" max="180" step="15" value="30" class="styled-range">
+                                    </div>
+                                </div>
+
+                                <div class="calc-result-box water-box">
+                                    <div class="water-visual">
+                                        <div class="water-glass-counter">
+                                            <span class="water-liters" id="waterLiters">2.8 L</span>
+                                            <span class="water-glasses" id="waterGlasses">~11 Glasses / Day</span>
+                                        </div>
+                                    </div>
+                                    <p class="water-tip">💧 Drink a glass of water first thing in the morning and always take oral tablets with a full 250ml glass of water for optimal absorption.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 3: BP & SUGAR CHART -->
+                        <div class="health-panel" id="tab-bp" role="tabpanel">
+                            <div class="chart-container">
+                                <h3>Clinical Blood Pressure & Glucose Reference Guide</h3>
+                                <p class="chart-sub">Standard medical ranges for quick reference (Always consult your doctor for personalized targets).</p>
+
+                                <div class="chart-dual-grid">
+                                    <!-- Blood Pressure Table -->
+                                    <div class="chart-table-card">
+                                        <h4><i data-lucide="heart" class="text-rose"></i> Blood Pressure Ranges (mmHg)</h4>
+                                        <table class="medical-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Category</th>
+                                                    <th>Systolic (Top)</th>
+                                                    <th>Diastolic (Bottom)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="row-optimal">
+                                                    <td><strong>Optimal / Normal</strong></td>
+                                                    <td>&lt; 120</td>
+                                                    <td>&lt; 80</td>
+                                                </tr>
+                                                <tr class="row-elevated">
+                                                    <td><strong>Elevated</strong></td>
+                                                    <td>120 – 129</td>
+                                                    <td>&lt; 80</td>
+                                                </tr>
+                                                <tr class="row-stage1">
+                                                    <td><strong>Hypertension Stage 1</strong></td>
+                                                    <td>130 – 139</td>
+                                                    <td>80 – 89</td>
+                                                </tr>
+                                                <tr class="row-stage2">
+                                                    <td><strong>Hypertension Stage 2</strong></td>
+                                                    <td>≥ 140</td>
+                                                    <td>≥ 90</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <!-- Blood Sugar Table -->
+                                    <div class="chart-table-card">
+                                        <h4><i data-lucide="activity" class="text-cyan"></i> Blood Glucose Ranges (mg/dL)</h4>
+                                        <table class="medical-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Condition</th>
+                                                    <th>Fasting (Empty Stomach)</th>
+                                                    <th>Post-Meal (2 hrs)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="row-optimal">
+                                                    <td><strong>Normal (Non-Diabetic)</strong></td>
+                                                    <td>70 – 99</td>
+                                                    <td>&lt; 140</td>
+                                                </tr>
+                                                <tr class="row-elevated">
+                                                    <td><strong>Pre-Diabetes</strong></td>
+                                                    <td>100 – 125</td>
+                                                    <td>140 – 199</td>
+                                                </tr>
+                                                <tr class="row-stage2">
+                                                    <td><strong>Diabetes</strong></td>
+                                                    <td>≥ 126</td>
+                                                    <td>≥ 200</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="chart-footer-note">
+                                    <a href="https://wa.me/917503564364?text=Hi%20Sughra%20Medicose!%20I%20want%20to%20buy%20a%20Digital%20BP%20Monitor%20or%20Glucometer."
+                                        target="_blank" rel="noopener" class="btn btn-outline btn-sm">
+                                        <i data-lucide="shopping-cart"></i> Buy Digital BP Monitor / Glucometer via WhatsApp
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 4: DOSAGE & REMINDER -->
+                        <div class="health-panel" id="tab-reminder" role="tabpanel">
+                            <div class="reminder-builder-grid">
+                                <div class="reminder-form-col">
+                                    <h3>Medication Schedule Generator</h3>
+                                    <p class="calc-sub">Create your daily medicine timetable and export directly to your WhatsApp.</p>
+
+                                    <div class="form-group">
+                                        <label for="reminderMedName">Medicine Name & Dose</label>
+                                        <input type="text" id="reminderMedName" placeholder="e.g. Telmisartan 40mg">
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="reminderTiming">Frequency</label>
+                                            <select id="reminderTiming">
+                                                <option value="Once Daily (Morning)">Once Daily (Morning after breakfast)</option>
+                                                <option value="Once Daily (Night)">Once Daily (Night after dinner)</option>
+                                                <option value="Twice Daily (Morning + Night)">Twice Daily (Morning + Night)</option>
+                                                <option value="Thrice Daily (After meals)">Thrice Daily (After meals)</option>
+                                                <option value="Before Meals (Empty Stomach)">Before Meals (Empty Stomach)</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="reminderDays">Duration</label>
+                                            <input type="text" id="reminderDays" placeholder="e.g. 30 Days">
+                                        </div>
+                                    </div>
+
+                                    <button type="button" id="addReminderItemBtn" class="btn btn-outline btn-block">
+                                        <i data-lucide="plus"></i> Add to Medication Timetable
+                                    </button>
+                                </div>
+
+                                <div class="reminder-list-col">
+                                    <h4>Your Daily Medicine Schedule</h4>
+                                    <div class="med-schedule-list" id="medScheduleList">
+                                        <div class="empty-schedule-msg">No medicines added yet. Fill the form to create your timetable!</div>
+                                    </div>
+
+                                    <button type="button" id="exportReminderWhatsAppBtn" class="btn btn-whatsapp-glow btn-block" style="display: none;">
+                                        <i data-lucide="send"></i> Export Schedule to My WhatsApp
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== ABOUT SUGHRA MEDICOSE & TASNIM JAMAL ========== -->
+        <section id="about" class="about-section">
+            <div class="container">
+                <div class="about-grid">
+                    <!-- Left Image & Founder Card -->
+                    <div class="about-media-col reveal-item">
+                        <div class="founder-card-glass" data-tilt>
+                            <div class="founder-image-wrapper">
+                                <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=800&auto=format&fit=crop&q=80"
+                                    alt="Tasnim Jamal — Chief Pharmacist & Founder of Sughra Medicose" class="founder-img">
+                                <div class="founder-overlay-badge">
+                                    <i data-lucide="award" class="text-amber"></i>
+                                    <span>Registered Pharmacist</span>
+                                </div>
+                            </div>
+
+                            <div class="founder-details">
+                                <h3>Tasnim Jamal</h3>
+                                <p class="founder-title">Founder & Chief Pharmacist • Sughra Medicose</p>
+                                <blockquote class="founder-quote">
+                                    "When a patient walks into Sughra Medicose, they aren't just a customer — they are our family. For 30+ years, our sole mission has been authentic medicines, ethical advice, and accessible healthcare."
+                                </blockquote>
+                                <div class="founder-signature">Tasnim Jamal</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Story & Core Pillars -->
+                    <div class="about-content-col reveal-item delay-1">
+                        <div class="section-badge"><i data-lucide="shield-check"></i> Legacy Since 1995</div>
+                        <h2 class="section-title">A Legacy of <span class="gradient-text">Trust & Healing</span> in Old Delhi</h2>
+                        <p class="about-lead">
+                            Established in 1995 at <strong>Shahganj Chowk, Ajmeri Gate</strong>, Sughra Medicose has grown from a humble neighborhood pharmacy into one of Central Delhi’s most revered healthcare landmarks.
+                        </p>
+                        <p class="about-body">
+                            Under the steadfast guidance of <strong>Tasnim Jamal</strong>, we have earned the trust of more than three generations of families. Whether you require daily maintenance medications, urgent cardiac drugs, pediatric care, or home healthcare devices, we ensure 100% genuine products with cold-chain integrity.
+                        </p>
+
+                        <!-- 4 Core Pillars -->
+                        <div class="about-pillars-grid">
+                            <div class="pillar-card">
+                                <div class="pillar-icon text-emerald"><i data-lucide="badge-check"></i></div>
+                                <div>
+                                    <h4>100% Genuine Guaranteed</h4>
+                                    <p>Sourced strictly from licensed pharma manufacturers with verifiable batch numbers.</p>
+                                </div>
+                            </div>
+
+                            <div class="pillar-card">
+                                <div class="pillar-icon text-cyan"><i data-lucide="thermometer-snowflake"></i></div>
+                                <div>
+                                    <h4>Cold-Chain Maintained</h4>
+                                    <p>Dedicated medical refrigeration preserving potency for insulins, vaccines, and biologics.</p>
+                                </div>
+                            </div>
+
+                            <div class="pillar-card">
+                                <div class="pillar-icon text-amber"><i data-lucide="coins"></i></div>
+                                <div>
+                                    <h4>Fair & Affordable Pricing</h4>
+                                    <p>Competitive pricing, generic cost-saving guidance, and senior citizen benefits.</p>
+                                </div>
+                            </div>
+
+                            <div class="pillar-card">
+                                <div class="pillar-icon text-purple"><i data-lucide="message-circle-heart"></i></div>
+                                <div>
+                                    <h4>Direct WhatsApp Care</h4>
+                                    <p>Speak directly to our certified pharmacists on <strong>7503564364</strong> anytime.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== BRAND PARTNERS MARQUEE ========== -->
+        <section class="brands-marquee-section">
+            <div class="container">
+                <div class="marquee-header text-center">
+                    <span class="marquee-tag"><i data-lucide="building-2"></i> Authorized Stockist For India's Top Pharmaceutical Giants</span>
+                </div>
+            </div>
+
+            <div class="marquee-scroller">
+                <div class="marquee-inner">
+                    <span class="brand-chip"><i data-lucide="award"></i> Cipla</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Sun Pharma</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Dr. Reddy's</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Abbott</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Lupin</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Mankind</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Zydus Cadila</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> GSK</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Pfizer</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Himalaya Wellness</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Dabur</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Torrent Pharma</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Alkem Labs</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Glenmark</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Intas</span>
+                    <!-- Duplicate for infinite flow -->
+                    <span class="brand-chip"><i data-lucide="award"></i> Cipla</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Sun Pharma</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Dr. Reddy's</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Abbott</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Lupin</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Mankind</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Zydus Cadila</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> GSK</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Pfizer</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Himalaya Wellness</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Dabur</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Torrent Pharma</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Alkem Labs</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Glenmark</span>
+                    <span class="brand-chip"><i data-lucide="award"></i> Intas</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== CUSTOMER REVIEWS & TESTIMONIALS ========== -->
+        <section id="reviews" class="reviews-section">
+            <div class="container">
+                <div class="section-header text-center reveal-item">
+                    <div class="section-badge"><i data-lucide="star"></i> 5.0 Star Rated Pharmacy</div>
+                    <h2 class="section-title">Loved by Thousands of <span class="gradient-text">Families in Delhi</span></h2>
+                    <p class="section-subtitle">Real experiences from patients who trust Sughra Medicose for their everyday healthcare and emergency requirements.</p>
+                </div>
+
+                <div class="testimonials-slider-container reveal-item delay-1">
+                    <div class="testimonials-track" id="reviewsTrack">
+                        <!-- Review 1 -->
+                        <div class="testimonial-glass-card">
+                            <div class="review-stars">★★★★★</div>
+                            <p class="review-quote">"I have been buying all our family's diabetic & cardiac medicines from Tasnim bhai at Sughra Medicose for over 18 years. He always makes sure we get genuine Cipla and Sun Pharma products at the best rates. Truly the most reliable chemist in Old Delhi!"</p>
+                            <div class="reviewer-profile">
+                                <div class="avatar-ring">MK</div>
+                                <div>
+                                    <h5>Mohammed Khalid</h5>
+                                    <span>Shahganj Chowk, Ajmeri Gate</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review 2 -->
+                        <div class="testimonial-glass-card">
+                            <div class="review-stars">★★★★★</div>
+                            <p class="review-quote">"The WhatsApp Prescription service is astonishingly fast! I just snapped a photo of my doctor's prescription and sent it to 7503564364. Within 20 minutes, my full order was ready for pickup. Saved me an hour of waiting."</p>
+                            <div class="reviewer-profile">
+                                <div class="avatar-ring">AS</div>
+                                <div>
+                                    <h5>Aisha Siddiqui</h5>
+                                    <span>Daryaganj, Delhi</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review 3 -->
+                        <div class="testimonial-glass-card">
+                            <div class="review-stars">★★★★★</div>
+                            <p class="review-quote">"During an emergency at night, we couldn't find a rare nebulizer medication anywhere in central Delhi. Tasnim Jamal personally arranged it for us within an hour. You won't find this level of dedication anywhere else."</p>
+                            <div class="reviewer-profile">
+                                <div class="avatar-ring">RV</div>
+                                <div>
+                                    <h5>Rahul Verma</h5>
+                                    <span>Ajmeri Gate Extension</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review 4 -->
+                        <div class="testimonial-glass-card">
+                            <div class="review-stars">★★★★★</div>
+                            <p class="review-quote">"Excellent advice and genuine concern for customers. Tasnim Jamal explained the correct timing for my father's BP medicines and recommended generic alternatives that saved us ₹1,400 monthly. 5 stars all the way!"</p>
+                            <div class="reviewer-profile">
+                                <div class="avatar-ring">FA</div>
+                                <div>
+                                    <h5>Fatima Ahmed</h5>
+                                    <span>Turkman Gate, Delhi</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonials Carousel Navigation Controls -->
+                    <div class="slider-nav-controls">
+                        <button class="slider-btn" id="reviewPrevBtn" aria-label="Previous Review"><i data-lucide="chevron-left"></i></button>
+                        <div class="slider-dots" id="reviewDots"></div>
+                        <button class="slider-btn" id="reviewNextBtn" aria-label="Next Review"><i data-lucide="chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== FREQUENTLY ASKED QUESTIONS (FAQ) ========== -->
+        <section class="faq-section">
+            <div class="container">
+                <div class="section-header text-center reveal-item">
+                    <div class="section-badge"><i data-lucide="help-circle"></i> Got Questions?</div>
+                    <h2 class="section-title">Frequently Asked <span class="gradient-text">Questions</span></h2>
+                    <p class="section-subtitle">Everything you need to know about ordering, prescriptions, and home delivery at Sughra Medicose.</p>
+                </div>
+
+                <div class="faq-accordion-container reveal-item delay-1">
+                    <div class="faq-item active">
+                        <button class="faq-question-btn" aria-expanded="true">
+                            <span>How do I order medicines via WhatsApp?</span>
+                            <i data-lucide="chevron-down" class="faq-arrow"></i>
+                        </button>
+                        <div class="faq-answer-pane">
+                            <p>It's incredibly simple! Either click any "WhatsApp Order" button on this website, upload your prescription image, or directly send a text/photo to <strong>+91 7503564364</strong>. Our pharmacist Tasnim Jamal will immediately calculate the bill and confirm your delivery or pickup time.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question-btn" aria-expanded="false">
+                            <span>Do you provide home delivery across Delhi?</span>
+                            <i data-lucide="chevron-down" class="faq-arrow"></i>
+                        </button>
+                        <div class="faq-answer-pane">
+                            <p>Yes! We offer rapid home delivery throughout Ajmeri Gate, Chandni Chowk, Daryaganj, Paharganj, Connaught Place, and greater Delhi NCR. Free delivery is available on eligible prescription orders above ₹499.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question-btn" aria-expanded="false">
+                            <span>Are all medicines 100% genuine and fresh?</span>
+                            <i data-lucide="chevron-down" class="faq-arrow"></i>
+                        </button>
+                        <div class="faq-answer-pane">
+                            <p>Absolutely. Sughra Medicose is a fully licensed retail pharmacy. We only stock products sourced directly from authorized company distributors (Cipla, Sun Pharma, Abbott, Dr. Reddy's, etc.) with verified batch numbers and full shelf life.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question-btn" aria-expanded="false">
+                            <span>What are the store timings at Shahganj Chowk, Ajmeri Gate?</span>
+                            <i data-lucide="chevron-down" class="faq-arrow"></i>
+                        </button>
+                        <div class="faq-answer-pane">
+                            <p>We are open Monday to Saturday from <strong>9:00 AM to 10:00 PM</strong>, and Sunday from <strong>10:00 AM to 8:00 PM</strong>. For urgent or emergency medicine inquiries outside regular hours, you can reach our hotline at <strong>7503564364</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== CONTACT & INTERACTIVE STORE LOCATION ========== -->
+        <section id="contact" class="contact-section">
+            <div class="container">
+                <div class="section-header text-center reveal-item">
+                    <div class="section-badge"><i data-lucide="map-pin"></i> Visit Our Pharmacy</div>
+                    <h2 class="section-title">Visit <span class="gradient-text">Sughra Medicose</span></h2>
+                    <p class="section-subtitle">Located in the vibrant heart of Old Delhi, easily accessible by Metro and road.</p>
+                </div>
+
+                <div class="contact-card-glass reveal-item delay-1">
+                    <div class="contact-grid">
+                        <!-- Contact Details Cards -->
+                        <div class="contact-details-col">
+                            <div class="contact-card-box">
+                                <div class="c-icon-wrap text-emerald"><i data-lucide="map-pin"></i></div>
+                                <div>
+                                    <h4>Store Address</h4>
+                                    <p>Shahganj Chowk, Ajmeri Gate,<br>Old Delhi, Delhi – 110006<br><span class="landmark-tag">Near Ajmeri Gate Metro Station (Gate 2)</span></p>
+                                </div>
+                            </div>
+
+                            <div class="contact-card-box">
+                                <div class="c-icon-wrap text-amber"><i data-lucide="phone-call"></i></div>
+                                <div>
+                                    <h4>Direct Calling Hotline</h4>
+                                    <p><a href="tel:+917503564364" class="contact-link">+91 7503564364</a></p>
+                                    <span class="sub-contact">Owner: Tasnim Jamal</span>
+                                </div>
+                            </div>
+
+                            <div class="contact-card-box">
+                                <div class="c-icon-wrap text-cyan"><i data-lucide="message-circle"></i></div>
+                                <div>
+                                    <h4>24/7 WhatsApp Ordering</h4>
+                                    <p><a href="https://wa.me/917503564364?text=Hi%20Sughra%20Medicose!%20I%20want%20to%20order%20medicines."
+                                        target="_blank" rel="noopener" class="contact-link">+91 7503564364</a></p>
+                                    <span class="sub-contact">Instant Rx review & order dispatch</span>
+                                </div>
+                            </div>
+
+                            <div class="contact-card-box">
+                                <div class="c-icon-wrap text-purple"><i data-lucide="clock"></i></div>
+                                <div>
+                                    <h4>Working Hours</h4>
+                                    <p><strong>Mon – Sat:</strong> 9:00 AM – 10:00 PM<br><strong>Sunday:</strong> 10:00 AM – 8:00 PM</p>
+                                </div>
+                            </div>
+
+                            <div class="contact-btn-row">
+                                <a href="https://maps.google.com/?q=Ajmeri+Gate+Delhi+110006" target="_blank" rel="noopener" class="btn btn-primary-glow">
+                                    <i data-lucide="navigation"></i> Get Google Maps Directions
+                                </a>
+                                <a href="https://wa.me/917503564364" target="_blank" rel="noopener" class="btn btn-whatsapp-glow">
+                                    <i data-lucide="message-square"></i> Chat with Us
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Embedded Google Map -->
+                        <div class="contact-map-col">
+                            <div class="map-frame-wrapper">
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3501.523458694087!2d77.22485!3d28.64495!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd37b741d057%3A0xcdee88e47393c3f1!2sAjmeri%20Gate%2C%20Delhi%2C%20110006!5e0!3m2!1sen!2sin!4v1708000000000!5m2!1sen!2sin"
+                                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade" title="Sughra Medicose Location on Google Maps">
+                                </iframe>
+                                <div class="map-badge-overlay">
+                                    <i data-lucide="map-pin"></i> Sughra Medicose • Shahganj Chowk
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-top-grid">
+                <!-- Brand & Bio -->
+                <div class="footer-col-brand">
+                    <a href="#hero" class="nav-brand footer-brand">
+                        <div class="brand-symbol">
+                            <div class="symbol-bg"></div>
+                            <i data-lucide="cross" class="symbol-icon"></i>
+                        </div>
+                        <div class="brand-text">
+                            <div class="brand-title">
+                                <span class="brand-name">Sughra</span>
+                                <span class="brand-badge">Medicose</span>
+                            </div>
+                            <span class="brand-subtitle">Tasnim Jamal • Est. 1995</span>
+                        </div>
+                    </a>
+                    <p class="footer-desc">
+                        Delhi's premier pharmacy dedicated to genuine medicines, patient wellness, and community care for over 30 years at Shahganj Chowk, Ajmeri Gate.
+                    </p>
+                    <div class="footer-badges-row">
+                        <span class="badge-chip-sm"><i data-lucide="shield-check"></i> Licensed Pharmacy</span>
+                        <span class="badge-chip-sm"><i data-lucide="truck"></i> Doorstep Delivery</span>
+                        <span class="badge-chip-sm"><i data-lucide="message-circle"></i> WhatsApp 7503564364</span>
+                    </div>
+                </div>
+
+                <!-- Quick Navigation -->
+                <div class="footer-col">
+                    <h4>Quick Navigation</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="#hero"><i data-lucide="chevron-right"></i> Home Overview</a></li>
+                        <li><a href="#catalog"><i data-lucide="chevron-right"></i> Medicine Catalog</a></li>
+                        <li><a href="#prescription"><i data-lucide="chevron-right"></i> Upload Prescription</a></li>
+                        <li><a href="#health-suite"><i data-lucide="chevron-right"></i> BMI & Health Tools</a></li>
+                        <li><a href="#about"><i data-lucide="chevron-right"></i> About Tasnim Jamal</a></li>
+                        <li><a href="#reviews"><i data-lucide="chevron-right"></i> Patient Reviews</a></li>
+                    </ul>
+                </div>
+
+                <!-- Medicine Categories -->
+                <div class="footer-col">
+                    <h4>Pharmacy Categories</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="#catalog" data-filter="rx"><i data-lucide="chevron-right"></i> Prescription Medicines (Rx)</a></li>
+                        <li><a href="#catalog" data-filter="otc"><i data-lucide="chevron-right"></i> OTC & First Aid Supplies</a></li>
+                        <li><a href="#catalog" data-filter="devices"><i data-lucide="chevron-right"></i> BP Monitors & Glucometers</a></li>
+                        <li><a href="#catalog" data-filter="wellness"><i data-lucide="chevron-right"></i> Vitamins & Supplements</a></li>
+                        <li><a href="#catalog" data-filter="baby"><i data-lucide="chevron-right"></i> Baby & Mother Care</a></li>
+                        <li><a href="#catalog" data-filter="ayurveda"><i data-lucide="chevron-right"></i> Ayurvedic Medicines</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact & Legal -->
+                <div class="footer-col">
+                    <h4>Contact Info</h4>
+                    <ul class="footer-contact-list">
+                        <li>
+                            <i data-lucide="map-pin"></i>
+                            <span>Shahganj Chowk, Ajmeri Gate, Delhi - 110006</span>
+                        </li>
+                        <li>
+                            <i data-lucide="phone"></i>
+                            <a href="tel:+917503564364">+91 7503564364</a>
+                        </li>
+                        <li>
+                            <i data-lucide="message-circle"></i>
+                            <a href="https://wa.me/917503564364" target="_blank" rel="noopener">WhatsApp: 7503564364</a>
+                        </li>
+                        <li>
+                            <i data-lucide="clock"></i>
+                            <span>Mon-Sat: 9AM–10PM | Sun: 10AM–8PM</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom-bar">
+                <p>&copy; 2026 <strong>Sughra Medicose</strong>. All rights reserved. | Owner & Chief Pharmacist: <strong>Tasnim Jamal</strong></p>
+                <p class="footer-heart">Crafted with care for Delhi's health & wellness ❤️</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== SLIDE-OUT SHOPPING CART DRAWER ========== -->
+    <div class="cart-drawer-overlay" id="cartOverlay"></div>
+    <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Cart Drawer">
+        <div class="cart-drawer-header">
+            <div class="cart-header-title">
+                <i data-lucide="shopping-bag" class="text-emerald"></i>
+                <h3>Your Medicine Cart (<span id="cartDrawerCount">0</span>)</h3>
+            </div>
+            <button class="cart-close-btn" id="closeCartBtn" aria-label="Close Cart">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+
+        <!-- Cart Items List Container -->
+        <div class="cart-items-container" id="cartItemsList">
+            <!-- Dynamic Cart Items injected by JS -->
+        </div>
+
+        <!-- Cart Empty State -->
+        <div class="cart-empty-view" id="cartEmptyView" style="display: none;">
+            <div class="empty-cart-icon"><i data-lucide="shopping-cart"></i></div>
+            <h4>Your cart is empty</h4>
+            <p>Explore our catalog and add prescription medicines, vitamins, or devices to order via WhatsApp!</p>
+            <a href="#catalog" class="btn btn-primary-glow btn-sm" id="cartExploreBtn">
+                <i data-lucide="search"></i> Browse Medicines
+            </a>
+        </div>
+
+        <!-- Cart Summary & WhatsApp Checkout Footer -->
+        <div class="cart-drawer-footer" id="cartFooter">
+            <!-- Coupon Code Field -->
+            <div class="coupon-box">
+                <input type="text" id="couponInput" placeholder="Enter coupon (e.g. SUGHRA10)" uppercase>
+                <button type="button" id="applyCouponBtn" class="btn btn-outline btn-sm">Apply</button>
+            </div>
+            <div id="couponMessage" class="coupon-feedback" style="display: none;"></div>
+
+            <!-- Pricing Breakdown -->
+            <div class="bill-summary">
+                <div class="bill-row">
+                    <span>Subtotal MRP</span>
+                    <span id="billSubtotal">₹0</span>
+                </div>
+                <div class="bill-row bill-discount" id="discountRow" style="display: none;">
+                    <span>Special Discount</span>
+                    <span id="billDiscount">- ₹0</span>
+                </div>
+                <div class="bill-row">
+                    <span>Delivery Fee</span>
+                    <span class="text-emerald" id="billDelivery">FREE (Above ₹499)</span>
+                </div>
+                <div class="bill-row bill-total">
+                    <strong>Total Amount</strong>
+                    <strong class="total-price" id="billTotal">₹0</strong>
+                </div>
+            </div>
+
+            <!-- Customer Quick Address Form -->
+            <div class="cart-customer-fields">
+                <div class="form-group-sm">
+                    <input type="text" id="cartCustomerName" placeholder="Your Name *" required>
+                </div>
+                <div class="form-group-sm">
+                    <input type="text" id="cartCustomerAddress" placeholder="Delivery Address in Delhi *" required>
+                </div>
+            </div>
+
+            <!-- 1-Click WhatsApp Order Button -->
+            <button type="button" id="checkoutWhatsAppBtn" class="btn btn-whatsapp-glow btn-block btn-lg" data-sound="success">
+                <i data-lucide="message-circle"></i>
+                <span>Complete Order on WhatsApp (+91 7503564364)</span>
+            </button>
+            <span class="checkout-hint"><i data-lucide="shield-check"></i> Instant confirmation & bill receipt generated directly in WhatsApp!</span>
+        </div>
+    </aside>
+
+    <!-- ========== MEDICINE QUICK-VIEW MODAL ========== -->
+    <div class="modal-backdrop" id="quickViewModal">
+        <div class="modal-dialog">
+            <button class="modal-close-btn" id="closeQuickViewBtn" aria-label="Close product details">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="quick-view-content" id="quickViewContent">
+                <!-- Dynamically populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== FLOATING ACTION WIDGETS ========== -->
+    <!-- Floating WhatsApp Bubble -->
+    <a href="https://wa.me/917503564364?text=Hi%20Sughra%20Medicose!%20I%20need%20help%20with%20medicines."
+        class="floating-wa-bubble" target="_blank" rel="noopener" aria-label="Chat with Sughra Medicose on WhatsApp" id="floatingWa">
+        <div class="wa-bubble-pulse"></div>
+        <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor">
+            <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+        </svg>
+        <span class="wa-tooltip-tag">Order via WhatsApp</span>
+    </a>
+
+    <!-- Floating Back To Top -->
+    <button class="back-to-top" id="backToTop" aria-label="Scroll to top">
+        <i data-lucide="arrow-up"></i>
+    </button>
+
+    <!-- Mobile Sticky Navigation Bar -->
+    <nav class="mobile-bottom-bar" aria-label="Mobile Navigation">
+        <a href="#hero" class="mobile-nav-link active">
+            <i data-lucide="home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#catalog" class="mobile-nav-link">
+            <i data-lucide="shopping-bag"></i>
+            <span>Shop</span>
+        </a>
+        <a href="#prescription" class="mobile-nav-link">
+            <i data-lucide="upload-cloud"></i>
+            <span>Rx Upload</span>
+        </a>
+        <a href="https://wa.me/917503564364?text=Hi%20Sughra%20Medicose!%20I%20want%20to%20order%20medicines." target="_blank" rel="noopener" class="mobile-nav-link highlight-wa">
+            <i data-lucide="message-circle"></i>
+            <span>WhatsApp</span>
+        </a>
+        <button class="mobile-nav-link mobile-cart-btn" id="mobileCartTrigger">
+            <div class="m-cart-wrap">
+                <i data-lucide="shopping-cart"></i>
+                <span class="m-cart-count" id="mobileCartCount">0</span>
+            </div>
+            <span>Cart</span>
+        </button>
+    </nav>
+
+    <!-- Main JavaScript Application File -->
+    <script src="script.js"></script>
+</body>
+
+</html>

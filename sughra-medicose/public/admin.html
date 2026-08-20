@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sughra Medicose — Admin Pharmacy Control Center</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Admin Stylesheet -->
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- ==================== 1. AUTHENTICATION LOCK SCREEN ==================== -->
+  <div class="auth-wrapper" id="authScreen">
+    <div class="auth-card">
+      <div class="auth-icon">🔒</div>
+      <h2 style="font-size:1.5rem; font-weight:800; margin-bottom:0.35rem;">Sughra Medicose</h2>
+      <p style="color:var(--admin-muted); font-size:0.875rem; margin-bottom:1.5rem;">
+        Admin Pharmacy Management & Real-Time Orders Portal
+      </p>
+
+      <div id="authErrorMsg" style="display:none; background:rgba(239,68,68,0.2); border:1px solid rgba(239,68,68,0.4); color:#f87171; padding:0.6rem; border-radius:var(--radius-md); font-size:0.85rem; margin-bottom:1rem;"></div>
+
+      <form id="adminLoginForm">
+        <div class="form-group" style="text-align:left;">
+          <label class="form-label">Master PIN / Password</label>
+          <input type="password" id="adminPasswordInput" class="form-input" placeholder="Enter PIN (Default: sughra123)" required autofocus>
+        </div>
+        <button type="submit" class="admin-btn admin-btn-primary" style="width:100%; padding:0.75rem; font-size:0.95rem; margin-top:0.5rem;">
+          🔓 Unlock Admin Portal
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== 2. MAIN ADMIN LAYOUT ==================== -->
+  <div class="admin-layout" id="adminMainLayout" style="display:none;">
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo-icon">💊</div>
+        <div>
+          <h2 style="font-size:1.05rem; font-weight:800; color:#ffffff;">Sughra Medicose</h2>
+          <p style="font-size:0.72rem; color:var(--admin-muted);">Pharmacist Control Center</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-item active" data-tab="dashboard">
+          <span>📊 Dashboard</span>
+        </div>
+        <div class="nav-item" data-tab="orders">
+          <span>🛍️ Live Orders</span>
+          <span class="nav-badge" id="pendingOrdersBadge" style="display:none;">0</span>
+        </div>
+        <div class="nav-item" data-tab="medicines">
+          <span>💊 Medicine Catalog</span>
+        </div>
+        <div class="nav-item" data-tab="inventory">
+          <span>📦 Inventory & Stock</span>
+        </div>
+        <div class="nav-item" data-tab="settings">
+          <span>⚙️ Store Settings</span>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div style="font-size:0.8rem; color:var(--admin-muted); margin-bottom:0.75rem;">
+          👤 Pharmacist: <strong>Tasnim Jamal</strong><br>
+          📞 Phone: <strong>7503574364</strong>
+        </div>
+        <button class="admin-btn admin-btn-outline admin-btn-sm" id="adminLogoutBtn" style="width:100%;">
+          🚪 Lock / Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-main">
+      
+      <!-- Flashing New Order Notification Banner -->
+      <div class="new-order-banner" id="newOrderBanner">
+        <div id="newOrderBannerText">🚨 NEW ORDER RECEIVED!</div>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="admin-btn" style="background:#ffffff; color:#b91c1c; font-weight:800;" onclick="acknowledgeNewOrder()">
+            🔔 View & Accept Order
+          </button>
+          <button class="admin-btn" style="background:rgba(0,0,0,0.3); color:#ffffff;" onclick="beeper.stopContinuousAlert()">
+            🔕 Mute Sound
+          </button>
+        </div>
+      </div>
+
+      <!-- Topbar -->
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <span class="live-indicator">
+            <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#34d399;"></span>
+            Realtime SSE Active
+          </span>
+          <span style="font-size:0.85rem; color:var(--admin-muted);">
+            Store: <strong style="color:#ffffff;">Sughra Medicose, Ajmeri Gate</strong>
+          </span>
+        </div>
+
+        <div class="topbar-right">
+          <button class="admin-btn admin-btn-outline admin-btn-sm" onclick="testBeepSound()" title="Test Speakers">
+            🔊 Test Audio Beep
+          </button>
+          <button class="admin-btn admin-btn-primary admin-btn-sm" onclick="openAddMedModal()">
+            + Add Medicine
+          </button>
+        </div>
+      </header>
+
+      <!-- Tab Content Area -->
+      <div class="admin-content">
+
+        <!-- TAB 1: DASHBOARD -->
+        <div class="tab-pane active" id="tab-dashboard">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon green">💰</div>
+              <div class="stat-info">
+                <h4>Today Sales</h4>
+                <div class="stat-value" id="dashTodayRevenue">₹0.00</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon blue">📈</div>
+              <div class="stat-info">
+                <h4>Total Revenue</h4>
+                <div class="stat-value" id="dashTotalRevenue">₹0.00</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon amber">🔔</div>
+              <div class="stat-info">
+                <h4>Pending Orders</h4>
+                <div class="stat-value" id="dashPendingOrders">0</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon red">⚠️</div>
+              <div class="stat-info">
+                <h4>Low Stock Alerts</h4>
+                <div class="stat-value" id="dashLowStock">0</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-card">
+            <div class="table-header">
+              <div class="table-title">
+                <h3>Recent Live Orders</h3>
+              </div>
+              <div class="table-actions">
+                <button class="admin-btn admin-btn-outline admin-btn-sm" onclick="switchTab('orders')">
+                  View All Orders ➔
+                </button>
+              </div>
+            </div>
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Items</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="dashRecentOrdersTable">
+                <!-- Populated by admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 2: LIVE ORDERS MANAGEMENT -->
+        <div class="tab-pane" id="tab-orders">
+          <div class="order-tabs">
+            <button class="order-tab active" data-status="All" onclick="filterOrders('All')">All Orders</button>
+            <button class="order-tab" data-status="Pending" onclick="filterOrders('Pending')">⏳ Pending / New</button>
+            <button class="order-tab" data-status="Accepted" onclick="filterOrders('Accepted')">✓ Accepted</button>
+            <button class="order-tab" data-status="Preparing" onclick="filterOrders('Preparing')">📦 Preparing</button>
+            <button class="order-tab" data-status="Out for Delivery" onclick="filterOrders('Out for Delivery')">🛵 Out for Delivery</button>
+            <button class="order-tab" data-status="Delivered" onclick="filterOrders('Delivered')">✅ Delivered</button>
+            <button class="order-tab" data-status="Cancelled" onclick="filterOrders('Cancelled')">❌ Cancelled</button>
+          </div>
+
+          <div class="table-card">
+            <div class="table-header">
+              <div class="table-title">
+                <h3>Order Pipeline & Fulfillment</h3>
+              </div>
+              <div class="table-actions">
+                <input type="text" id="orderSearchInput" class="form-input" placeholder="Search by Order ID, Name, Phone..." oninput="renderOrdersTab()" style="width:260px; padding:0.45rem 0.75rem;">
+              </div>
+            </div>
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Order ID & Time</th>
+                  <th>Customer</th>
+                  <th>Items & Address</th>
+                  <th>Amount & Mode</th>
+                  <th>Prescription</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTableBody">
+                <!-- Populated by admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 3: MEDICINE CATALOG CRUD -->
+        <div class="tab-pane" id="tab-medicines">
+          <div class="table-card">
+            <div class="table-header">
+              <div class="table-title">
+                <h3>Medicine Catalog Management</h3>
+              </div>
+              <div class="table-actions">
+                <input type="text" id="medSearchInput" class="form-input" placeholder="Search medicines..." oninput="renderMedicinesTab()" style="width:240px; padding:0.45rem 0.75rem;">
+                <button class="admin-btn admin-btn-primary admin-btn-sm" onclick="openAddMedModal()">
+                  + Add New Medicine
+                </button>
+              </div>
+            </div>
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Medicine Name & Salt</th>
+                  <th>Category & Form</th>
+                  <th>Selling Price</th>
+                  <th>Stock</th>
+                  <th>Batch / Expiry</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="medicinesTableBody">
+                <!-- Populated by admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 4: INVENTORY & STOCK -->
+        <div class="tab-pane" id="tab-inventory">
+          <div class="table-card">
+            <div class="table-header">
+              <div class="table-title">
+                <h3>Inventory Levels & Expiry Tracker</h3>
+              </div>
+              <div class="table-actions">
+                <button class="admin-btn admin-btn-outline admin-btn-sm" onclick="exportInventoryCSV()">
+                  📄 Export Inventory (CSV)
+                </button>
+              </div>
+            </div>
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Medicine & Batch</th>
+                  <th>Category</th>
+                  <th>Current Stock</th>
+                  <th>Min Alert</th>
+                  <th>Expiry Date</th>
+                  <th>Expiry Health</th>
+                  <th>Total Valuation</th>
+                </tr>
+              </thead>
+              <tbody id="inventoryTableBody">
+                <!-- Populated by admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 5: STORE SETTINGS -->
+        <div class="tab-pane" id="tab-settings">
+          <div class="table-card" style="max-width:760px;">
+            <div class="table-header">
+              <div class="table-title">
+                <h3>Store & UPI Configuration</h3>
+              </div>
+            </div>
+            <div style="padding:1.5rem;">
+              <form id="storeSettingsForm" onsubmit="saveStoreSettings(event)">
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label class="form-label">Store Name</label>
+                    <input type="text" id="settingStoreName" class="form-input" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Helpline Phone Number</label>
+                    <input type="text" id="settingPhone" class="form-input" required>
+                  </div>
+                </div>
+
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label class="form-label">UPI Phone Number (for QR Code)</label>
+                    <input type="text" id="settingUpiPhone" class="form-input" value="7503574364" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">UPI ID (VPA)</label>
+                    <input type="text" id="settingUpiId" class="form-input" value="7503574364@upi" required>
+                  </div>
+                </div>
+
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label class="form-label">Free Delivery Minimum Amount (₹)</label>
+                    <input type="number" id="settingFreeMin" class="form-input" value="500">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Standard Delivery Charge (₹)</label>
+                    <input type="number" id="settingDeliveryFee" class="form-input" value="40">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                    <input type="checkbox" id="settingStoreOpen" style="width:18px; height:18px;">
+                    <span style="font-size:0.9rem; text-transform:none; color:#ffffff;">Store Is Currently Open (Accepting Orders)</span>
+                  </label>
+                </div>
+
+                                <div class="form-grid-2" style="background:rgba(2,132,199,0.08); border:1px solid rgba(2,132,199,0.2); border-radius:var(--radius-md); padding:1rem; margin-bottom:1rem;">
+                  <div class="form-group" style="margin-bottom:0;">
+                    <label class="form-label" style="color:#38bdf8;">💳 Razorpay Key ID</label>
+                    <input type="text" id="settingRazorpayKeyId" class="form-input" placeholder="e.g. rzp_test_... or rzp_live_...">
+                  </div>
+                  <div class="form-group" style="margin-bottom:0;">
+                    <label class="form-label" style="color:#38bdf8;">🔒 Razorpay Key Secret</label>
+                    <input type="password" id="settingRazorpayKeySecret" class="form-input" placeholder="e.g. secret key from Razorpay dashboard">
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin-top:1.5rem; padding-top:1rem; border-top:1px solid var(--admin-border);">
+                  <label class="form-label">Change Admin Password / PIN</label>
+                  <input type="password" id="settingNewPassword" class="form-input" placeholder="Leave blank to keep current password">
+                </div>
+
+                <button type="submit" class="admin-btn admin-btn-primary" style="padding:0.75rem 1.5rem; margin-top:0.5rem;">
+                  💾 Save Settings
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- Add/Edit Medicine Modal -->
+  <div class="admin-modal-overlay" id="medModal">
+    <div class="admin-modal-box">
+      <div class="admin-modal-header">
+        <h3 id="medModalTitle">Add New Medicine</h3>
+        <button class="admin-btn admin-btn-outline admin-btn-sm" onclick="closeAdminModal('medModal')">✕</button>
+      </div>
+      <div class="admin-modal-body">
+        <form id="medForm" onsubmit="handleSaveMedicine(event)">
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Medicine Brand Name *</label>
+              <input type="text" id="medName" class="form-input" placeholder="e.g. Dolo 650 Tablet" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Generic Salt Composition *</label>
+              <input type="text" id="medGenericName" class="form-input" placeholder="e.g. Paracetamol (650mg)">
+            </div>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <select id="medCategory" class="form-input">
+                <option value="Pain & Fever">Pain & Fever</option>
+                <option value="Antibiotics">Antibiotics</option>
+                <option value="Cough & Cold">Cough & Cold</option>
+                <option value="Digestion & Acidity">Digestion & Acidity</option>
+                <option value="Diabetes & BP">Diabetes & BP</option>
+                <option value="Vitamins & Supplements">Vitamins & Supplements</option>
+                <option value="First Aid & Ointments">First Aid & Ointments</option>
+                <option value="Baby Care">Baby Care</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Dosage Form</label>
+              <select id="medDosageForm" class="form-input">
+                <option value="Tablet">Tablet</option>
+                <option value="Capsule">Capsule</option>
+                <option value="Syrup">Syrup</option>
+                <option value="Gel">Gel / Ointment</option>
+                <option value="Drops">Drops</option>
+                <option value="Inhaler">Inhaler</option>
+                <option value="Liquid">Liquid</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Pack Size</label>
+              <input type="text" id="medPackSize" class="form-input" placeholder="e.g. Strip of 15">
+            </div>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label class="form-label">Manufacturer / Brand</label>
+              <input type="text" id="medManufacturer" class="form-input" placeholder="e.g. Micro Labs">
+            </div>
+            <div class="form-group">
+              <label class="form-label">MRP (₹)</label>
+              <input type="number" step="0.01" id="medMrp" class="form-input" placeholder="34.00">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Selling Price (₹) *</label>
+              <input type="number" step="0.01" id="medPrice" class="form-input" placeholder="29.00" required>
+            </div>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label class="form-label">Stock Quantity *</label>
+              <input type="number" id="medStock" class="form-input" value="50" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Min Stock Alert</label>
+              <input type="number" id="medMinStock" class="form-input" value="10">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Batch Number</label>
+              <input type="text" id="medBatchNo" class="form-input" placeholder="e.g. ML-2024-88">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Expiry Date</label>
+              <input type="date" id="medExpiryDate" class="form-input" value="2027-12-31">
+            </div>
+            <div class="form-group" style="display:flex; align-items:center; margin-top:1.5rem;">
+              <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                <input type="checkbox" id="medRxRequired" style="width:18px; height:18px;">
+                <span style="font-size:0.85rem; color:#f87171; font-weight:700;">Prescription Required (Rx)</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Medicine Photo (Image URL or Unsplash)</label>
+            <div style="display:flex; gap:0.75rem; align-items:center;">
+              <input type="text" id="medImageUrl" class="form-input" placeholder="https://images.unsplash.com/..." onchange="document.getElementById('medImagePreview').src = this.value || 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&auto=format&fit=crop&q=80'">
+              <img id="medImagePreview" src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&auto=format&fit=crop&q=80" style="width:40px; height:40px; border-radius:4px; object-fit:cover; border:1px solid var(--admin-border);">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Clinical Description & Indications</label>
+            <textarea id="medDescription" class="form-input" rows="2" placeholder="Indications, fever relief, clinical usage..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Dosage Instructions</label>
+            <input type="text" id="medDosageInstructions" class="form-input" placeholder="e.g. 1 tablet every 6-8 hours after food">
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1.5rem;">
+            <button type="button" class="admin-btn admin-btn-outline" onclick="closeAdminModal('medModal')">Cancel</button>
+            <button type="submit" class="admin-btn admin-btn-primary">Save Medicine & Sync</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Details Modal -->
+  <div class="admin-modal-overlay" id="orderDetailsModal">
+    <div class="admin-modal-box" style="max-width:640px;">
+      <div class="admin-modal-header">
+        <h3>Order Information</h3>
+        <button class="admin-btn admin-btn-outline admin-btn-sm" onclick="closeAdminModal('orderDetailsModal')">✕</button>
+      </div>
+      <div class="admin-modal-body" id="orderDetailsModalBody">
+        <!-- Rendered by admin.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Prescription Viewer Modal -->
+  <div class="admin-modal-overlay" id="prescriptionModal">
+    <div class="admin-modal-box">
+      <div class="admin-modal-header">
+        <h3>Uploaded Prescription Preview</h3>
+        <button class="admin-btn admin-btn-outline admin-btn-sm" onclick="closeAdminModal('prescriptionModal')">✕</button>
+      </div>
+      <div class="admin-modal-body" id="prescriptionViewBody">
+        <!-- Rendered by admin.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden Printable Invoice Container -->
+  <div id="printableInvoiceContainer" style="display:none;"></div>
+
+  <!-- Admin Scripts -->
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+[
+  {
+    "id": "med_1787233488628",
+    "name": "Test",
+    "genericName": "testing",
+    "category": "Pain & Fever",
+    "dosageForm": "Tablet",
+    "packSize": "15",
+    "manufacturer": "niko",
+    "mrp": 10,
+    "price": 1,
+    "discount": 90,
+    "stock": 48,
+    "minStockThreshold": 10,
+    "batchNo": "BATCH-8628",
+    "expiryDate": "2027-12-31",
+    "prescriptionRequired": false,
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&auto=format&fit=crop&q=80",
+    "description": "",
+    "dosageInstructions": "As directed by physician",
+    "storage": "Store below 25°C in a dry place",
+    "tags": [
+      "test",
+      "testing"
+    ]
+  }
+]

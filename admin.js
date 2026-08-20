@@ -922,12 +922,16 @@ async function saveStoreSettings(e) {
     if (res.ok && data.success) {
       storeSettings = data.settings;
       showAdminToast("Settings saved successfully!", "success");
-      document.getElementById("settingNewPassword").value = "";
+      const pwdInput = document.getElementById("settingNewPassword");
+      if (pwdInput) pwdInput.value = "";
+    } else if (res.status === 403) {
+      showAdminToast("Session expired. Please log in with your PIN again.", "warning");
+      setTimeout(() => showAuthLock(), 1000);
     } else {
-      showAdminToast("Failed to save settings", "danger");
+      showAdminToast(data.error || "Failed to save settings", "danger");
     }
   } catch (e) {
-    showAdminToast("Error saving settings", "danger");
+    showAdminToast("Error connecting to server. Please try again.", "danger");
   }
 }
 

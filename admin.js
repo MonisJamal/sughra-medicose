@@ -876,8 +876,6 @@ function updateSettingsUI() {
   if (freeMinInput) freeMinInput.value = storeSettings.freeDeliveryMin || 500;
   if (deliveryFeeInput) deliveryFeeInput.value = storeSettings.deliveryFee || 40;
   if (openSwitch) openSwitch.checked = storeSettings.isStoreOpen !== false;
-  const rzpKeyInput = document.getElementById("settingRazorpayKeyId");
-  if (rzpKeyInput) rzpKeyInput.value = storeSettings.razorpayKeyId || "";
 }
 
 function renderSettingsTab() {
@@ -887,28 +885,24 @@ function renderSettingsTab() {
 async function saveStoreSettings(e) {
   e.preventDefault();
 
-  const storeName = document.getElementById("settingStoreName").value.trim();
-  const phone = document.getElementById("settingPhone").value.trim();
-  const upiPhone = document.getElementById("settingUpiPhone").value.trim();
-  const upiId = document.getElementById("settingUpiId").value.trim();
-  const freeDeliveryMin = parseFloat(document.getElementById("settingFreeMin").value) || 500;
-  const deliveryFee = parseFloat(document.getElementById("settingDeliveryFee").value) || 40;
-  const isStoreOpen = document.getElementById("settingStoreOpen").checked;
-  const razorpayKeyId = document.getElementById("settingRazorpayKeyId").value.trim();
-  const razorpayKeySecret = document.getElementById("settingRazorpayKeySecret").value.trim();
-  const newPassword = document.getElementById("settingNewPassword").value.trim();
+  const storeName = (document.getElementById("settingStoreName")?.value || "").trim();
+  const phone = (document.getElementById("settingPhone")?.value || "").trim();
+  const upiPhone = (document.getElementById("settingUpiPhone")?.value || "7503574364").trim();
+  const upiId = (document.getElementById("settingUpiId")?.value || "7503574364@upi").trim();
+  const freeDeliveryMin = parseFloat(document.getElementById("settingFreeMin")?.value) || 500;
+  const deliveryFee = parseFloat(document.getElementById("settingDeliveryFee")?.value) || 40;
+  const isStoreOpen = document.getElementById("settingStoreOpen") ? document.getElementById("settingStoreOpen").checked : true;
+  const newPassword = (document.getElementById("settingNewPassword")?.value || "").trim();
 
   const payload = {
-    storeName,
-    phone,
+    storeName: storeName || "Sughra Medicose",
+    phone: phone || "7503574364",
     upiPhone,
     upiId,
     freeDeliveryMin,
     deliveryFee,
-    isStoreOpen,
-    razorpayKeyId
+    isStoreOpen
   };
-  if (razorpayKeySecret) payload.razorpayKeySecret = razorpayKeySecret;
 
   if (newPassword) {
     payload.adminPassword = newPassword;
